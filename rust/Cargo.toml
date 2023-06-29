@@ -1,0 +1,9 @@
+[package]
+name = "a2pi-rs"
+version = "0.1.0"
+edition = "2021"
+author = "Dominic DiGiacomo"
+
+[dependencies]
+mio = "0.8"
+mio-serial = "5.0.1"
