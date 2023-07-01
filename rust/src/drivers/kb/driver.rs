@@ -46,14 +46,11 @@ impl KbDriver {
         let key_map = self.key_map;
         let mut scan_code_fmt = format!("0x{}", hex::encode_upper([scan_code]));
 
-        println!("{scan_code_fmt}");
         match key_map.clone().find_scan_code(scan_code_fmt.clone()) {
             Some(key) => (true, Some(key)),
             None => {
                 let mask = /* (0x0 & MOD_FN) | */ scan_code & KEY_ASCII;
                 scan_code_fmt = format!("0x{}", hex::encode_upper([mask]));
-                println!("{scan_code_fmt}");
-                println!("FINDING SCAN CODE {:?}", scan_code_fmt);
                 (false, key_map.find_scan_code(scan_code_fmt))
             }
         }

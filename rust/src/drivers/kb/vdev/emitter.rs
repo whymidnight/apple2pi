@@ -48,4 +48,5 @@ pub fn vdev_emitter(
             }
         }
     }
+    println!("!!! emitted !!!");
 }

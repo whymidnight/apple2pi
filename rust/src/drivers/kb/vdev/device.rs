@@ -13,8 +13,10 @@ pub struct VdevDevice {
 
 impl VdevDevice {
     pub fn init() -> VdevDevice {
+        let mut enigo = Enigo::new();
+        enigo.set_delay(0);
         Self {
-            enigo: Enigo::new(),
+            enigo,
             key_codex: VdevKeys::init(),
         }
     }
