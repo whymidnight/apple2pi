@@ -50,8 +50,8 @@ impl PartialEq for Modifiers {
 
 #[derive(Clone)]
 pub enum KbDriverInput {
-    KeyDown((Modifiers, u8)),
-    KeyUp((Modifiers, u8)),
+    KeyDown((Modifiers, u8, String)),
+    KeyUp((Modifiers, u8, String)),
 }
 
 impl KbDriverInput {
@@ -70,14 +70,24 @@ impl KbDriverInput {
 
                 let modifier = modifier_got.unwrap();
 
-                let (is_key_up, key) = key_mapped(payload[2]);
-                if let None = key.as_ref() {
+                let (is_key_up, mapped_key) = key_mapped(payload[2]);
+                if let None = mapped_key.as_ref() {
                     return Err(A2PiError::InvalidKBInput);
                 }
 
+                let mapped_key_inner = mapped_key.unwrap();
+
                 Ok(match is_key_up {
-                    true => Some(KbDriverInput::KeyUp((modifier, payload[2]))),
-                    false => Some(KbDriverInput::KeyDown((modifier, payload[2]))),
+                    true => Some(KbDriverInput::KeyUp((
+                        modifier,
+                        payload[2],
+                        mapped_key_inner.key,
+                    ))),
+                    false => Some(KbDriverInput::KeyDown((
+                        modifier,
+                        payload[2],
+                        mapped_key_inner.key,
+                    ))),
                 })
             }
             _ => Err(A2PiError::InvalidKBPayload),
