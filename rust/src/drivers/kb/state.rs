@@ -88,11 +88,13 @@ impl KbDriverState {
                         self.last_press_epoch_ms = None;
                         self.active_modifiers = [].to_vec();
                         self.active_keys = [].to_vec();
+                        self.chained_key_inputs = [].to_vec();
                     }
                 } else {
                     self.last_press_epoch_ms = None;
                     self.active_modifiers = [].to_vec();
                     self.active_keys = [].to_vec();
+                    self.chained_key_inputs = [].to_vec();
                 }
             }
         }
