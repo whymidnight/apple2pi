@@ -22,8 +22,12 @@ impl VdevDevice {
         {
             // key up previous received input
             let previous_inputs = kb_driver_state.clone().chained_key_inputs;
-            if previous_inputs.len() > 1 {}
-            vdev_emitter(self, kb_driver_state.clone(), kb_driver_input.clone());
+            let previous_inputs_len = previous_inputs.len();
+            if previous_inputs_len > 1 {
+                let previous_input_idx = previous_inputs_len - 2;
+                let previous_input = previous_inputs.get(previous_input_idx).unwrap().clone();
+                vdev_emitter(self, kb_driver_state.clone(), previous_input.invert());
+            }
         }
 
         vdev_emitter(self, kb_driver_state, kb_driver_input)
