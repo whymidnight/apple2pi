@@ -42,6 +42,8 @@ pub struct KbDriverState {
     /// this permits psuedo N-key rollover where N is bound by the
     /// physical hardware limitation of N-key rollover.
     pub active_keys: Vec<u8>,
+
+    pub chained_key_inputs: Vec<KbDriverInput>,
 }
 
 impl KbDriverState {
@@ -50,6 +52,7 @@ impl KbDriverState {
             last_press_epoch_ms: None,
             active_modifiers: [].to_vec(),
             active_keys: [].to_vec(),
+            chained_key_inputs: [].to_vec(),
         }
     }
     pub fn process_input(&mut self, input: KbDriverInput) {
@@ -57,7 +60,7 @@ impl KbDriverState {
         let now = time.duration_since(UNIX_EPOCH).unwrap();
         let now_ms = now.as_millis();
 
-        match input {
+        match input.clone() {
             KbDriverInput::KeyDown((modifier, key_code, key_character)) => {
                 println!("KEY_DOWN: {key_character}");
                 if let Some(last_epoch) = self.last_press_epoch_ms {
@@ -65,12 +68,14 @@ impl KbDriverState {
                         self.last_press_epoch_ms = None;
                         self.active_modifiers = [].to_vec();
                         self.active_keys = [].to_vec();
+                        self.chained_key_inputs = [].to_vec();
                     }
                 } else if modifier.clone().inner() != 0x00 && self.last_press_epoch_ms.is_none() {
                     self.last_press_epoch_ms = Some(now_ms);
                 }
                 self.active_modifiers.push(modifier);
                 self.active_keys.push(key_code);
+                self.chained_key_inputs.push(input);
             }
             KbDriverInput::KeyUp((_modifier, _key_code, key_character)) => {
                 println!("KEY_UP: {key_character}");

@@ -55,6 +55,12 @@ pub enum KbDriverInput {
 }
 
 impl KbDriverInput {
+    pub fn invert(self) -> Self {
+        match self {
+            Self::KeyUp(input) => Self::KeyDown(input),
+            Self::KeyDown(input) => Self::KeyUp(input),
+        }
+    }
     pub fn from_apple_ii(
         payload: &[u8],
         // `key_mapped` is a closure that @returns truthy if the scan code is

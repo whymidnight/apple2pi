@@ -91,7 +91,10 @@ impl A2PiState {
                     let guard = self.kb_driver_state.try_lock();
                     if let Some(mut kb_driver_state) = guard {
                         let kb_inp = kb_input.unwrap().unwrap();
+
                         (*kb_driver_state).process_input(kb_inp.clone());
+
+                        //
                         self.kb_driver
                             .emit_to_device((*kb_driver_state).clone(), kb_inp);
                     } else {

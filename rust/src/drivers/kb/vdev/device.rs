@@ -13,14 +13,19 @@ pub struct VdevDevice {
 
 impl VdevDevice {
     pub fn init() -> VdevDevice {
-        let mut enigo = Enigo::new();
-        enigo.set_delay(0);
         Self {
-            enigo,
+            enigo: Enigo::new(),
             key_codex: VdevKeys::init(),
         }
     }
     pub fn emitter(&mut self, kb_driver_state: KbDriverState, kb_driver_input: KbDriverInput) {
+        {
+            // key up previous received input
+            let previous_inputs = kb_driver_state.clone().chained_key_inputs;
+            if previous_inputs.len() > 1 {}
+            vdev_emitter(self, kb_driver_state.clone(), kb_driver_input.clone());
+        }
+
         vdev_emitter(self, kb_driver_state, kb_driver_input)
     }
 }
