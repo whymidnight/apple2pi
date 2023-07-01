@@ -2,12 +2,20 @@
 extern crate mio;
 extern crate mio_serial;
 
+use hex::FromHex;
 use mio::{Events, Interest, Poll, Token};
 
 use std::env;
 use std::io;
 use std::io::Read;
+use std::io::Write;
 use std::str;
+
+mod drivers;
+mod errors;
+mod state;
+
+use state::A2PiState;
 
 use mio_serial::SerialPortBuilderExt;
 
@@ -31,7 +39,7 @@ pub fn main() -> io::Result<()> {
 
     // Create the serial port
     println!("Opening {} at 9600,8N1", path);
-    let mut rx = mio_serial::new(path, DEFAULT_BAUD).open_native_async()?;
+    let mut conn = mio_serial::new(path, DEFAULT_BAUD).open_native_async()?;
 
     // #[cfg(unix)]
     // let mut rx = mio_serial::TTYPort::open(&builder)?;
@@ -39,11 +47,17 @@ pub fn main() -> io::Result<()> {
     // let mut rx = mio_serial::COMPort::open(&builder)?;
 
     poll.registry()
-        .register(&mut rx, SERIAL_TOKEN, Interest::READABLE)
+        .register(&mut conn, SERIAL_TOKEN, Interest::READABLE)
         .unwrap();
 
     let mut buf = [0u8; 1024];
+    let ack = <[u8; 1]>::from_hex("80").unwrap();
+    let ack_write = conn.write(&ack);
+    if let Err(ack_write_err) = ack_write {
+        panic!("unable to init! {:?}", ack_write_err);
+    }
 
+    let mut kb_driver = A2PiState::new();
     loop {
         poll.poll(&mut events, None)?;
 
@@ -51,9 +65,13 @@ pub fn main() -> io::Result<()> {
             match event.token() {
                 SERIAL_TOKEN => loop {
                     // In this loop we receive all packets queued for the socket.
-                    match rx.read(&mut buf) {
+                    match conn.read(&mut buf) {
                         Ok(count) => {
-                            println!("{:?}", String::from_utf8_lossy(&buf[..count]))
+                            let handler = kb_driver.handler(&mut conn, &buf[..count]);
+
+                            if let Err(handler_err) = handler {
+                                println!("{:?}", handler_err);
+                            }
                         }
                         Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {
                             break;
