@@ -52,7 +52,7 @@
     "action": "CTRL+KEY_L"
   },
   "0x0D": {
-    "key": "CTRL-M",
+    "key": "Enter",
     "action": "KEY_ENTER"
   },
   "0x0E": {
