@@ -60,8 +60,8 @@ impl KbDriver {
     }
 
     pub fn emit_to_device(&mut self, state: KbDriverState, input: KbDriverInput) {
-        let device = self.device.clone();
-        device.emitter(state.clone(), input);
+        let device = self.device.as_ref();
+        (*device).emitter(state.clone(), input);
 
         self.emit_state(state)
     }
