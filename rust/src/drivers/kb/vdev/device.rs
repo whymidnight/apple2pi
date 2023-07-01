@@ -18,7 +18,7 @@ impl VdevDevice {
             key_codex: VdevKeys::init(),
         }
     }
-    pub fn emitter(&self, kb_driver_state: KbDriverState, kb_driver_input: KbDriverInput) {
+    pub fn emitter(&mut self, kb_driver_state: KbDriverState, kb_driver_input: KbDriverInput) {
         vdev_emitter(self, kb_driver_state, kb_driver_input)
     }
 }

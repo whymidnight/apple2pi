@@ -1,18 +1,15 @@
 use enigo::KeyboardControllable;
-use std::ptr::read;
 
 use crate::drivers::kb::{input::KbDriverInput, state::KbDriverState};
 
 use super::device::VdevDevice;
 
 pub fn vdev_emitter(
-    vdev_device: &VdevDevice,
+    vdev_device: &mut VdevDevice,
     _kb_driver_state: KbDriverState,
     kb_driver_input: KbDriverInput,
 ) {
-    // unsafe rust ftw !!!
-    let device = unsafe { read(vdev_device) };
-    let mut enigo = device.enigo;
+    let enigo = &mut vdev_device.enigo;
     match kb_driver_input {
         KbDriverInput::KeyDown((_mod, _key, key_character)) => {
             let vdev_key_got = vdev_device
