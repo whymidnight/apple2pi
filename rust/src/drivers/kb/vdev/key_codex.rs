@@ -87,7 +87,7 @@ impl VdevKeys {
             ]),
         }
     }
-    pub fn get_vdev_key(self, key_character: String) -> VdevKey {
-        self.codex.get(&key_character).unwrap().clone()
+    pub fn get_vdev_key(self, key_character: String) -> Option<VdevKey> {
+        self.codex.get(&key_character).cloned()
     }
 }
