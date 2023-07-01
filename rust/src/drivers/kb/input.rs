@@ -48,6 +48,7 @@ impl PartialEq for Modifiers {
     }
 }
 
+#[derive(Clone)]
 pub enum KbDriverInput {
     KeyDown((Modifiers, u8)),
     KeyUp((Modifiers, u8)),

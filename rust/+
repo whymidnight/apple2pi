@@ -15,27 +15,27 @@ pub enum State {
     // Stop,
 }
 
-pub struct A2PiState {
+pub struct A2PiState<'a> {
     pub state: State,
-    pub kb_driver: KbDriver,
+    pub kb_driver: KbDriver<'a>,
     pub kb_driver_state: Arc<FairMutex<KbDriverState>>,
 }
 
-impl Clone for A2PiState {
-    fn clone(&self) -> Self {
+impl Clone for A2PiState<'_> {
+    fn clone<'a>(&self) -> Self {
         Self {
             state: self.state.clone(),
-            kb_driver: self.kb_driver.clone(),
+            kb_driver: self.kb_driver,
             kb_driver_state: self.kb_driver_state.clone(),
         }
     }
 }
 
-impl A2PiState {
-    pub fn new() -> A2PiState {
+impl A2PiState<'_> {
+    pub fn new<'a>() -> A2PiState<'a> {
         A2PiState {
             state: State::Start,
-            kb_driver: KbDriver::init(None),
+            kb_driver: &KbDriver::init(None),
             kb_driver_state: Arc::new(FairMutex::new(KbDriverState::reset())),
         }
     }
@@ -70,7 +70,7 @@ impl A2PiState {
                 }
 
                 let kb_input = KbDriverInput::from_apple_ii(payload, &|scan_code| {
-                    self.kb_driver.clone().lookup_scan_code(scan_code)
+                    self.kb_driver.lookup_scan_code(scan_code)
                 });
                 if let Err(e) = kb_input {
                     match e {
@@ -90,10 +90,8 @@ impl A2PiState {
                 {
                     let guard = self.kb_driver_state.try_lock();
                     if let Some(mut kb_driver_state) = guard {
-                        let kb_inp = kb_input.unwrap().unwrap();
-                        (*kb_driver_state).process_input(kb_inp.clone());
-                        self.kb_driver
-                            .emit_to_device((*kb_driver_state).clone(), kb_inp);
+                        (*kb_driver_state).process_input(kb_input.unwrap().unwrap());
+                        self.kb_driver.emit_state((*kb_driver_state).clone())
                     } else {
                         println!("kb_driver_state is locked. unable to handle kb input!!!");
                     }

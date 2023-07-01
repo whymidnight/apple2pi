@@ -1,12 +1,15 @@
+use std::{borrow::BorrowMut, sync::Arc};
+
 use mio_serial::SerialStream;
 
 use crate::errors::A2PiError;
 
 use super::{
     handshake::handshake,
-    input::{KEY_ASCII, MOD_FN},
+    input::{KbDriverInput, KEY_ASCII, MOD_FN},
     kbmap::{Key, KeyMap},
     state::KbDriverState,
+    vdev::device::VdevDevice,
 };
 
 #[derive(Clone)]
@@ -16,12 +19,14 @@ pub struct KbDriver {
     /// where `key` is the supposed rendered sequence
     /// where `action` is the supposed recorded sequence
     pub key_map: KeyMap,
+    pub device: Arc<VdevDevice>,
 }
 
 impl KbDriver {
     pub fn init(keymap_file: Option<String>) -> KbDriver {
         KbDriver {
             key_map: KeyMap::open(keymap_file),
+            device: Arc::new(VdevDevice::init()),
         }
     }
 
@@ -52,6 +57,13 @@ impl KbDriver {
                 (false, key_map.find_scan_code(scan_code_fmt))
             }
         }
+    }
+
+    pub fn emit_to_device(&mut self, state: KbDriverState, input: KbDriverInput) {
+        let device = self.device.clone();
+        device.emitter(state.clone(), input);
+
+        self.emit_state(state)
     }
 
     pub fn emit_state(&self, state: KbDriverState) {
