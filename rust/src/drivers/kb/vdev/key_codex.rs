@@ -32,6 +32,7 @@ impl VdevKeys {
         // TODO(@dom): apply layers/remaps here
         Self {
             codex: HashMap::from([
+                /* ALPA-NUMERIC */
                 ("a".to_string(), VdevKey::None(Key::Layout('a'))),
                 ("A".to_string(), VdevKey::None(Key::Layout('A'))),
                 ("b".to_string(), VdevKey::None(Key::Layout('b'))),
@@ -84,6 +85,12 @@ impl VdevKeys {
                 ("Y".to_string(), VdevKey::None(Key::Layout('Y'))),
                 ("z".to_string(), VdevKey::None(Key::Layout('z'))),
                 ("Z".to_string(), VdevKey::None(Key::Layout('Z'))),
+                /* NUMERIC */
+                /* CONTROLS */
+                ("Enter".to_string(), VdevKey::None(Key::Raw(0x0D))),
+                ("BS".to_string(), VdevKey::None(Key::Backspace)),
+                ("ESCAPE".to_string(), VdevKey::None(Key::Escape)),
+                ("CTRL-I".to_string(), VdevKey::None(Key::Tab)),
             ]),
         }
     }
