@@ -87,7 +87,7 @@ impl VdevKeys {
                 ("Z".to_string(), VdevKey::None(Key::Layout('Z'))),
                 /* NUMERIC */
                 /* CONTROLS */
-                ("Enter".to_string(), VdevKey::None(Key::Raw(0x0D))),
+                ("Enter".to_string(), VdevKey::None(Key::Return)),
                 ("BS".to_string(), VdevKey::None(Key::Backspace)),
                 ("ESCAPE".to_string(), VdevKey::None(Key::Escape)),
                 ("CTRL-I".to_string(), VdevKey::None(Key::Tab)),
