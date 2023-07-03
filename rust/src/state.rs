@@ -136,4 +136,7 @@ impl A2PiState {
         }
         Ok(())
     }
+    pub fn shutdown(&mut self) {
+        self.kb_driver.reset_device()
+    }
 }

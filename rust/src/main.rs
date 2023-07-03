@@ -4,6 +4,18 @@ extern crate mio_serial;
 
 use hex::FromHex;
 use mio::{Events, Interest, Poll, Token};
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
+
+// This is just a collection of ints that represent kill signals.
+// More specifically, they are the common kill signals used to
+// terminate a program
+// You can do println!("{:?}", TERM_SIGNALS) to see them
+// They are just SIGINT(2), SIGTERM(15) and SIGQUIT(3)
+use signal_hook::consts::TERM_SIGNALS;
+
+// Module that sets boolean flags when kill signal is received
+use signal_hook::flag;
 
 use std::env;
 use std::io;
@@ -27,6 +39,13 @@ const DEFAULT_TTY: &str = "/dev/ttyUSB0";
 const DEFAULT_BAUD: u32 = 115200;
 
 pub fn main() -> io::Result<()> {
+    let term_now = Arc::new(AtomicBool::new(false));
+
+    for sig in TERM_SIGNALS {
+        flag::register_conditional_shutdown(*sig, 1, Arc::clone(&term_now))?;
+        flag::register(*sig, Arc::clone(&term_now))?;
+    }
+
     let mut args = env::args();
     let path = args.nth(1).unwrap_or(DEFAULT_TTY.into());
     // let baud = DEFAULT_BAUD;
@@ -58,7 +77,8 @@ pub fn main() -> io::Result<()> {
     }
 
     let mut kb_driver = A2PiState::new();
-    loop {
+
+    while !term_now.load(Ordering::Relaxed) {
         poll.poll(&mut events, None)?;
 
         for event in events.iter() {
@@ -91,4 +111,9 @@ pub fn main() -> io::Result<()> {
             }
         }
     }
+
+    kb_driver.shutdown();
+    println!("Shutdown successful!");
+
+    Ok(())
 }
