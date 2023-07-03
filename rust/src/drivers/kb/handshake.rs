@@ -5,8 +5,6 @@ use std::io::Write;
 use crate::errors::A2PiError;
 
 pub fn handshake(conn: &mut SerialStream) -> Result<(), A2PiError> {
-    reset(conn)?;
-
     // acquire RTS
     let rts = conn.write_request_to_send(true);
     if rts.is_err() {
