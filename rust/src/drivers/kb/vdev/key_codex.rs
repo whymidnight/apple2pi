@@ -21,6 +21,8 @@ impl VdevKeyMacroSequenceEntrant {
             "CMD" => Key::Meta,
             "META" => Key::Meta,
             "WIN" => Key::Meta,
+            "TAB" => Key::Tab,
+            "SHIFT" => Key::Shift,
             /* directional keys start */
             "LEFT" => Key::LeftArrow,
             "RIGHT" => Key::RightArrow,
@@ -461,6 +463,27 @@ impl VdevKeys {
                 0x40,
                 HashMap::from([
                     (
+                        "Enter".to_string(),
+                        VdevKey::Macro(VdevKeyMacro::from([
+                            (
+                                "0".to_string(),
+                                VdevKeyMacroSequenceEntrant {
+                                    to: "SHIFT".to_string(),
+                                    until: None,
+                                    until_after: Some("1".to_string()),
+                                },
+                            ),
+                            (
+                                "1".to_string(),
+                                VdevKeyMacroSequenceEntrant {
+                                    to: "TAB".to_string(),
+                                    until: None,
+                                    until_after: None,
+                                },
+                            ),
+                        ])),
+                    ),
+                    (
                         "n".to_string(),
                         VdevKey::Macro(VdevKeyMacro::from([(
                             "0".to_string(),
@@ -553,6 +576,17 @@ impl VdevKeys {
             (
                 0x80,
                 HashMap::from([
+                    (
+                        "Enter".to_string(),
+                        VdevKey::Macro(VdevKeyMacro::from([(
+                            "0".to_string(),
+                            VdevKeyMacroSequenceEntrant {
+                                to: "TAB".to_string(),
+                                until: None,
+                                until_after: None,
+                            },
+                        )])),
+                    ),
                     (
                         "h".to_string(),
                         VdevKey::Macro(VdevKeyMacro::from([(
