@@ -31,6 +31,12 @@ impl VdevDevice {
                 vdev_emitter(self, kb_driver_state.clone(), previous_input.invert());
             }
         }
+        /*
+        {
+            self.clear()
+        }
+        */
+
 
         vdev_emitter(self, kb_driver_state, kb_driver_input)
     }

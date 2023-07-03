@@ -114,6 +114,7 @@ impl A2PiState {
                         return Ok(());
                     }
                     {
+                        self.kb_driver.reset_device();
                         let guard = self.kb_driver_state.try_lock();
                         if let Some(mut kb_driver_state) = guard {
                             let kb_inp = kb_input.unwrap().clone().unwrap();
@@ -125,7 +126,6 @@ impl A2PiState {
                                 self.kb_driver
                                     .emit_to_device((*kb_driver_state).clone(), kb_inp);
                             } else {
-                                self.kb_driver.reset_device();
                             }
                         } else {
                             println!("kb_driver_state is locked. unable to handle kb input!!!");
