@@ -1,3 +1,4 @@
+/*
 use crate::drivers::kb::input::Modifiers;
 
 pub struct KbDriverInputEventKeyDown {
@@ -14,3 +15,4 @@ pub enum KbDriverInputEvent {
     KeyDown(),
     KeyUp(),
 }
+*/

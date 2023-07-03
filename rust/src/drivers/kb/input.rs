@@ -2,7 +2,7 @@ use crate::errors::A2PiError;
 
 use super::kbmap::Key;
 
-pub const MOD_FN: u8 = 0x80u8;
+// pub const MOD_FN: u8 = 0x80u8;
 pub const KEY_ASCII: u8 = 0x7Fu8;
 
 #[derive(Clone)]
@@ -84,7 +84,7 @@ impl KbDriverInput {
                 let modifier = modifier_got.unwrap();
 
                 let (is_key_up, mapped_key) = key_mapped(payload[2]);
-                if let None = mapped_key.as_ref() {
+                if mapped_key.is_none() {
                     return Err(A2PiError::InvalidKBInput);
                 }
 

@@ -7,7 +7,7 @@ use crate::errors::A2PiError;
 
 use super::{
     handshake::{handshake, reset},
-    input::{KbDriverInput, KEY_ASCII, MOD_FN},
+    input::{KbDriverInput, KEY_ASCII},
     kbmap::{Key, KeyMap},
     state::KbDriverState,
     vdev::device::VdevDevice,
@@ -31,8 +31,8 @@ impl KbDriver {
         }
     }
 
-    pub fn handshake(&self, conn: &mut SerialStream, payload: &[u8]) -> Result<(), A2PiError> {
-        handshake(conn, payload)
+    pub fn handshake(&self, conn: &mut SerialStream) -> Result<(), A2PiError> {
+        handshake(conn)
     }
 
     pub fn reset(&self, conn: &mut SerialStream) -> Result<(), A2PiError> {

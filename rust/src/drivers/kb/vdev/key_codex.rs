@@ -47,6 +47,7 @@ pub type VdevKeyMacro = HashMap<String, VdevKeyMacroSequenceEntrant>;
 #[derive(Clone)]
 pub enum VdevKey {
     None(Key),
+    #[allow(dead_code)]
     Remap(Key),
     Macro(VdevKeyMacro),
 }

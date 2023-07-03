@@ -47,7 +47,7 @@ impl A2PiState {
 
         match self.state {
             State::Start => {
-                let handshake = self.kb_driver.handshake(conn, payload);
+                let handshake = self.kb_driver.handshake(conn);
                 match handshake {
                     Ok(_) => {
                         self.state = State::Run;
@@ -61,10 +61,12 @@ impl A2PiState {
             }
             State::Run => {
                 let payload_buffer = {
+                    /*
                     if payload[0] == 0x80 {
-                        let _may_fail = self.kb_driver.reset(conn);
+                        let _may_fail = self.kb_driver.handshake(conn);
                         self.state = State::Start;
                     }
+                    */
                     if payload.len() % 3 != 0 || payload[0] == 0x98 {
                         if payload[0] != 0x98 {
                             // a bug in the client assembly that runs on the apple

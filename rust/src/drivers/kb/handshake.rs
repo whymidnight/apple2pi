@@ -4,10 +4,8 @@ use std::io::Write;
 
 use crate::errors::A2PiError;
 
-pub fn handshake(conn: &mut SerialStream, payload: &[u8]) -> Result<(), A2PiError> {
-    if payload[0] != 0x80 {
-        return Err(A2PiError::HandshakeFailureInPayload);
-    }
+pub fn handshake(conn: &mut SerialStream) -> Result<(), A2PiError> {
+    reset(conn)?;
 
     // acquire RTS
     let rts = conn.write_request_to_send(true);
@@ -31,8 +29,23 @@ pub fn handshake(conn: &mut SerialStream, payload: &[u8]) -> Result<(), A2PiErro
     Ok(())
 }
 pub fn reset(conn: &mut SerialStream) -> Result<(), A2PiError> {
+    // acquire RTS
+    let rts = conn.write_request_to_send(true);
+    if rts.is_err() {
+        return Err(A2PiError::HandshakeFailureRTSAcquire);
+    }
+
     // write 0x80
     let ack_write = conn.write(&[0x80]);
+    if ack_write.is_err() {
+        return Err(A2PiError::HandshakeFailureWrite);
+    }
+
+    // clear RTS
+    let rts = conn.write_request_to_send(false);
+    if rts.is_err() {
+        return Err(A2PiError::HandshakeFailureRTSClear);
+    }
 
     Ok(())
 }
