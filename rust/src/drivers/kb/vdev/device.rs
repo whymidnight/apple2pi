@@ -36,11 +36,13 @@ impl VdevDevice {
     }
     pub fn clear(&mut self) {
         let keys_down = &mut self.state.active_keys_down;
+        println!("clearing vdev keys {}", keys_down.clone().len());
         for key_down in keys_down.clone() {
             match key_down {
                 super::state::VdevDeviceKeyEvent::KeyDown(key) => self.enigo.key_up(key),
             }
         }
-        *keys_down = Vec::new()
+        *keys_down = Vec::new();
+        println!("cleared vdev keys")
     }
 }
