@@ -5,10 +5,9 @@ After=
 [Service]
 Type=idle
 Environment="HOME=/root"
-EnvironmentFile=-/etc/default/a2pi
-ExecStart=/sbin/a2pid $A2PID_OPTS
+ExecStart=/usr/local/share/a2pi/a2pid-rs
 Restart=on-failure
-RestartSec=60
+RestartSec=1
 
 [Install]
 WantedBy=multi-user.target
