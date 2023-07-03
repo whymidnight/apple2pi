@@ -1,3 +1,8 @@
 a.out
 
 src/gpclk
+
+target
+rust/target
+
+rsync.sh

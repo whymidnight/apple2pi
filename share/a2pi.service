@@ -1,14 +1,14 @@
 [Unit]
 Description=Apple II Pi Daemon
-After=
+PartOf=graphical.target
 
 [Service]
-Type=idle
-Environment="HOME=/root"
-EnvironmentFile=-/etc/default/a2pi
-ExecStart=/sbin/a2pid $A2PID_OPTS
+User=ddigiacomo
+WorkingDirectory=/usr/local/share/a2pi/
+Environment="DISPLAY=:0"
+ExecStart=/usr/local/share/a2pi/a2pi-rs
 Restart=on-failure
-RestartSec=60
+RestartSec=10
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=graphical.target
