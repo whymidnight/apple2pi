@@ -61,6 +61,10 @@ impl A2PiState {
             }
             State::Run => {
                 let payload_buffer = {
+                    if payload[0] == 0x80 {
+                        let _may_fail = self.kb_driver.reset(conn);
+                        self.state = State::Start;
+                    }
                     if payload.len() % 3 != 0 || payload[0] == 0x98 {
                         if payload[0] != 0x98 {
                             // a bug in the client assembly that runs on the apple
@@ -100,7 +104,7 @@ impl A2PiState {
                     if let Err(e) = kb_input {
                         match e {
                             A2PiError::InvalidKBPayload => {
-                                self.state = State::Start;
+                                // self.state = State::Start;
                             }
                             A2PiError::InvalidKBInput => {
                                 println!("invalid kb input!!!");
@@ -121,10 +125,10 @@ impl A2PiState {
 
                             (*kb_driver_state).process_input(kb_inp.clone());
 
-                            if !kb_driver_state.chained_key_inputs.is_empty() {
-                                //
                                 self.kb_driver
                                     .emit_to_device((*kb_driver_state).clone(), kb_inp);
+                            if !kb_driver_state.chained_key_inputs.is_empty() {
+                                //
                             } else {
                             }
                         } else {

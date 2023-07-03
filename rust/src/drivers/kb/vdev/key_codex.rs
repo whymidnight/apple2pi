@@ -26,12 +26,15 @@ impl VdevKeyMacroSequenceEntrant {
             /* directional keys start */
             "LEFT" => Key::LeftArrow,
             "RIGHT" => Key::RightArrow,
+            "e" => Key::Layout('e'),
+            "h" => Key::Layout('h'),
+            "l" => Key::Layout('l'),
             "UP" => Key::UpArrow,
             "DOWN" => Key::DownArrow,
             /* directional keys end */
             _ => {
-                let mut to_char = self.to.char_indices();
-                let (_, c) = to_char.next().unwrap();
+                let mut to_char = self.to.chars();
+                let c = to_char.take(1).last().unwrap();
                 Key::Layout(c)
             }
         }
@@ -196,6 +199,7 @@ impl VdevKeys {
                     (
                         "1".to_string(),
                         VdevKeyMacroSequenceEntrant {
+
                             to: "h".to_string(),
                             until: None,
                             until_after: None,

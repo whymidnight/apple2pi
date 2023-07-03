@@ -42,6 +42,7 @@ pub fn vdev_emitter(
 
                         match trace.clone().get(k) {
                             Some(e) => {
+                                println!("{:?}", e.clone().to);
                                 if e.until.is_some() {
                                     enigo.key_up(e.clone().into_vdev_key());
                                 }
@@ -58,10 +59,16 @@ pub fn vdev_emitter(
                                     );
                                     enigo.key_down(vdev_key);
                                 } else {
-                                    enigo.key_click(entrant.clone().into_vdev_key());
+                                    println!("...!!! {:?}", entrant.clone().to);
+                                    let vdev_key = entrant.clone().into_vdev_key();
+                                    enigo.key_down(vdev_key);
+                                    enigo.key_up(vdev_key);
+                                    println!("!!!!!! {:?}", entrant.clone().to);
                                 }
                                 if e.until_after.is_some() {
+                                    println!("releasing!!! {:?}", e.clone().to);
                                     enigo.key_up(e.clone().into_vdev_key());
+                                    println!("released!!! {:?}", e.clone().to);
                                 }
                             }
                             None => {
