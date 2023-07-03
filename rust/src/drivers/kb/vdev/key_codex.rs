@@ -390,6 +390,69 @@ impl VdevKeys {
                     ),
                 ])),
             ),
+            (
+                "CTRL-O".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "o".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
+            (
+                "CTRL-T".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "t".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
+            (
+                "CTRL-C".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "c".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
         ])
     }
     pub fn init_layers() -> VdevKeyLayerCodex {
