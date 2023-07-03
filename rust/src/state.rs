@@ -90,7 +90,6 @@ impl A2PiState {
                             _ => {}
                         }
                         self.kb_driver.reset_device();
-                        let _may_fail = self.kb_driver.reset(conn);
                         return Ok(());
                     }
                     {
@@ -100,9 +99,13 @@ impl A2PiState {
 
                             (*kb_driver_state).process_input(kb_inp.clone());
 
-                            //
-                            self.kb_driver
-                                .emit_to_device((*kb_driver_state).clone(), kb_inp);
+                            if !kb_driver_state.chained_key_inputs.is_empty() {
+                                //
+                                self.kb_driver
+                                    .emit_to_device((*kb_driver_state).clone(), kb_inp);
+                            } else {
+                                self.kb_driver.reset_device();
+                            }
                         } else {
                             println!("kb_driver_state is locked. unable to handle kb input!!!");
                         }
