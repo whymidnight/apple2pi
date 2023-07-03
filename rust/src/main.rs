@@ -7,14 +7,8 @@ use mio::{Events, Interest, Poll, Token};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 
-// This is just a collection of ints that represent kill signals.
-// More specifically, they are the common kill signals used to
-// terminate a program
-// You can do println!("{:?}", TERM_SIGNALS) to see them
-// They are just SIGINT(2), SIGTERM(15) and SIGQUIT(3)
 use signal_hook::consts::TERM_SIGNALS;
 
-// Module that sets boolean flags when kill signal is received
 use signal_hook::flag;
 
 use std::env;
@@ -48,16 +42,11 @@ pub fn main() -> io::Result<()> {
 
     let mut args = env::args();
     let path = args.nth(1).unwrap_or(DEFAULT_TTY.into());
-    // let baud = DEFAULT_BAUD;
 
-    // Create a poll instance.
     let mut poll = Poll::new()?;
-    // Create storage for events. Since we will only register a single serialport, a
-    // capacity of 1 will do.
     let mut events = Events::with_capacity(1);
 
-    // Create the serial port
-    println!("Opening {} at 9600,8N1", path);
+    println!("Opening {} at {},8N1", path, DEFAULT_BAUD);
     let mut conn = mio_serial::new(path, DEFAULT_BAUD).open_native_async()?;
 
     // #[cfg(unix)]
@@ -97,16 +86,12 @@ pub fn main() -> io::Result<()> {
                             break;
                         }
                         Err(e) => {
-                            println!("Quitting due to read error: {}", e);
                             return Err(e);
                         }
                     }
                 },
                 _ => {
-                    // This should never happen as we only registered our
-                    // `UdpSocket` using the `UDP_SOCKET` token, but if it ever
-                    // does we'll log it.
-                    println!("Got event for unexpected token: {:?}", event);
+                    println!("unforeseen")
                 }
             }
         }

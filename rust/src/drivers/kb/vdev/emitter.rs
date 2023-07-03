@@ -25,7 +25,7 @@ pub fn vdev_emitter(
                 .clone()
                 .get_vdev_key(modifier, key_character.clone());
             if vdev_key_got.is_none() {
-                // println!("\nUNABLE TO FIND KEY CHARACTER CODEX ::: {key_character}\n");
+                println!("\nUNABLE TO FIND KEY CHARACTER CODEX ::: {key_character}\n");
                 return;
             }
             let vdev_key = vdev_key_got.unwrap();
@@ -39,11 +39,9 @@ pub fn vdev_emitter(
                 super::key_codex::VdevKey::Remap(key) => enigo.key_down(key),
                 super::key_codex::VdevKey::Macro(macro_seq) => {
                     let mut trace: HashMap<String, VdevKeyMacroSequenceEntrant> = HashMap::new();
-                    println!("{:?}", macro_seq.keys());
                     for (k, entrant) in macro_seq.iter().sorted_by_key(|sk| sk.0) {
                         match trace.clone().get(k) {
                             Some(e) => {
-                                println!("{:?}", e.clone().to);
                                 if e.until.is_some() {
                                     enigo.key_up(e.clone().into_vdev_key());
                                 }
@@ -60,16 +58,12 @@ pub fn vdev_emitter(
                                     );
                                     enigo.key_down(vdev_key);
                                 } else {
-                                    println!("...!!! {:?}", entrant.clone().to);
                                     let vdev_key = entrant.clone().into_vdev_key();
                                     enigo.key_down(vdev_key);
                                     enigo.key_up(vdev_key);
-                                    println!("!!!!!! {:?}", entrant.clone().to);
                                 }
                                 if e.until_after.is_some() {
-                                    println!("releasing!!! {:?}", e.clone().to);
                                     enigo.key_up(e.clone().into_vdev_key());
-                                    println!("released!!! {:?}", e.clone().to);
                                 }
                             }
                             None => {
@@ -101,7 +95,7 @@ pub fn vdev_emitter(
                 .clone()
                 .get_vdev_key(modifier, key_character.clone());
             if vdev_key_got.is_none() {
-                // println!("\nUNABLE TO FIND KEY CHARACTER CODEX ::: {key_character}\n");
+                println!("\nUNABLE TO FIND KEY CHARACTER CODEX ::: {key_character}\n");
                 return;
             }
             let vdev_key = vdev_key_got.unwrap();
@@ -114,5 +108,4 @@ pub fn vdev_emitter(
             }
         }
     }
-    // println!("!!! emitted !!!");
 }

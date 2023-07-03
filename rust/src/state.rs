@@ -43,7 +43,7 @@ impl A2PiState {
         }
     }
     pub fn handler(&mut self, conn: &mut SerialStream, payload: &[u8]) -> Result<(), A2PiError> {
-        println!("{:?}, {:02X?}", self.state, payload);
+        println!("[{:?}]: {:02X?}", self.state, payload);
 
         match self.state {
             State::Start => {
@@ -125,12 +125,13 @@ impl A2PiState {
 
                             (*kb_driver_state).process_input(kb_inp.clone());
 
-                                self.kb_driver
-                                    .emit_to_device((*kb_driver_state).clone(), kb_inp);
-                            if !kb_driver_state.chained_key_inputs.is_empty() {
-                                //
-                            } else {
-                            }
+                            self.kb_driver
+                                .emit_to_device((*kb_driver_state).clone(), kb_inp);
+                            /*
+                                if !kb_driver_state.chained_key_inputs.is_empty() {
+                                } else {
+                                }
+                            */
                         } else {
                             println!("kb_driver_state is locked. unable to handle kb input!!!");
                         }
