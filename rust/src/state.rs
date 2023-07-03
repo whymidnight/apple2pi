@@ -19,6 +19,7 @@ pub struct A2PiState {
     pub state: State,
     pub kb_driver: KbDriver,
     pub kb_driver_state: Arc<FairMutex<KbDriverState>>,
+    pub rx_buffer: Vec<u8>,
 }
 
 impl Clone for A2PiState {
@@ -27,6 +28,7 @@ impl Clone for A2PiState {
             state: self.state.clone(),
             kb_driver: self.kb_driver.clone(),
             kb_driver_state: self.kb_driver_state.clone(),
+            rx_buffer: self.rx_buffer.clone(),
         }
     }
 }
@@ -37,6 +39,7 @@ impl A2PiState {
             state: State::Start,
             kb_driver: KbDriver::init(None),
             kb_driver_state: Arc::new(FairMutex::new(KbDriverState::reset())),
+            rx_buffer: Vec::new(),
         }
     }
     pub fn handler(&mut self, conn: &mut SerialStream, payload: &[u8]) -> Result<(), A2PiError> {
@@ -57,17 +60,39 @@ impl A2PiState {
                 }
             }
             State::Run => {
-                if payload.len() % 3 != 0 || payload[0] == 0x98 {
-                    println!("malformed kb input!!!");
-                    if payload[0] != 0x98 {
-                        self.kb_driver.reset_device();
+                let payload_buffer = {
+                    if payload.len() % 3 != 0 || payload[0] == 0x98 {
+                        if payload[0] != 0x98 {
+                            // a bug in the client assembly that runs on the apple
+                            // ii, is inconsistent transmissions of scan(ned) codes
+                            //
+                            // such can be described as expected a 3 byte vector
+                            // but receiving 2 vectors of mismatchd length's that
+                            // sum to 3^n bytes.
+                            //
+                            // this inconsistency can be remedied by buffering
+                            // incomplete payloads.
+                            for p in payload {
+                                self.rx_buffer.push(*p);
+                            }
+                        } else {
+                            println!("malformed kb input!!!");
+                            return Ok(());
+                        }
+                        if self.rx_buffer.len() % 3 != 0 {
+                            return Ok(());
+                        }
+                        let payload = self.rx_buffer.clone();
+                        self.rx_buffer = Vec::new();
+                        payload
+                    } else {
+                        payload.to_vec()
                     }
-                    return Ok(());
-                }
+                };
 
                 // payload.len() may exceed 3 indicating an multi key presses
                 // so we should chunk each 3 pair and iter over each key press
-                let chunks: Vec<&[u8]> = payload.chunks(3).collect();
+                let chunks: Vec<&[u8]> = payload_buffer.chunks(3).collect();
                 for payload_chunk in chunks {
                     let kb_input = KbDriverInput::from_apple_ii(payload_chunk, &|scan_code| {
                         self.kb_driver.clone().lookup_scan_code(scan_code)

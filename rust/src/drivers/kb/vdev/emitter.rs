@@ -83,6 +83,7 @@ pub fn vdev_emitter(
                             }
                         }
                     }
+                    vdev_device.clear();
                 }
             }
         }
