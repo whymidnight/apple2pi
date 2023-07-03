@@ -132,7 +132,7 @@ impl VdevKeys {
                             VdevKeyMacroSequenceEntrant {
                                 to: "LEFT".to_string(),
                                 until: None,
-                                until_after: Some("1".to_string()),
+                                until_after: None,
                             },
                         )])),
                     ),
