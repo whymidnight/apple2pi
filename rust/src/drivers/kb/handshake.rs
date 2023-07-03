@@ -30,3 +30,25 @@ pub fn handshake(conn: &mut SerialStream, payload: &[u8]) -> Result<(), A2PiErro
 
     Ok(())
 }
+pub fn reset(conn: &mut SerialStream) -> Result<(), A2PiError> {
+    // acquire RTS
+    let rts = conn.write_request_to_send(true);
+    if rts.is_err() {
+        return Err(A2PiError::HandshakeFailureRTSAcquire);
+    }
+
+    // write 0x80
+    let ack = <[u8; 1]>::from_hex("80").unwrap();
+    let ack_write = conn.write(&ack);
+    if ack_write.is_err() {
+        return Err(A2PiError::HandshakeFailureWrite);
+    }
+
+    // clear RTS
+    let rts = conn.write_request_to_send(false);
+    if rts.is_err() {
+        return Err(A2PiError::HandshakeFailureRTSClear);
+    }
+
+    Ok(())
+}

@@ -5,9 +5,6 @@ use crate::{
 use mio_serial::SerialStream;
 use std::sync::Arc;
 
-use hex::FromHex;
-use std::io::Write;
-
 use parking_lot::FairMutex;
 
 #[derive(Debug, Clone)]
@@ -42,11 +39,7 @@ impl A2PiState {
             kb_driver_state: Arc::new(FairMutex::new(KbDriverState::reset())),
         }
     }
-    pub fn handler<'a>(
-        &'a mut self,
-        conn: &mut SerialStream,
-        payload: &[u8],
-    ) -> Result<(), A2PiError> {
+    pub fn handler(&mut self, conn: &mut SerialStream, payload: &[u8]) -> Result<(), A2PiError> {
         println!("{:?}, {:02X?}", self.state, payload);
 
         match self.state {
@@ -59,8 +52,7 @@ impl A2PiState {
                     }
                     Err(e) => {
                         println!("{:02X?} {:?}", payload, e);
-                        let ack = <[u8; 1]>::from_hex("80").unwrap();
-                        let ack_write = conn.write(&ack);
+                        let _may_fail = self.kb_driver.reset(conn);
                     }
                 }
             }

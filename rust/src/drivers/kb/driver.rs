@@ -5,7 +5,7 @@ use mio_serial::SerialStream;
 use crate::errors::A2PiError;
 
 use super::{
-    handshake::handshake,
+    handshake::{handshake, reset},
     input::{KbDriverInput, KEY_ASCII, MOD_FN},
     kbmap::{Key, KeyMap},
     state::KbDriverState,
@@ -32,6 +32,10 @@ impl KbDriver {
 
     pub fn handshake(&self, conn: &mut SerialStream, payload: &[u8]) -> Result<(), A2PiError> {
         handshake(conn, payload)
+    }
+
+    pub fn reset(&self, conn: &mut SerialStream) -> Result<(), A2PiError> {
+        reset(conn)
     }
 
     /// `lookup_scan_code` will search `self.key_map` for an existing
