@@ -23,7 +23,7 @@ pub fn vdev_emitter(
                 .clone()
                 .get_vdev_key(modifier, key_character.clone());
             if vdev_key_got.is_none() {
-                println!("\nUNABLE TO FIND KEY CHARACTER CODEX ::: {key_character}\n");
+                // println!("\nUNABLE TO FIND KEY CHARACTER CODEX ::: {key_character}\n");
                 return;
             }
             let vdev_key = vdev_key_got.unwrap();
@@ -92,7 +92,7 @@ pub fn vdev_emitter(
                 .clone()
                 .get_vdev_key(modifier, key_character.clone());
             if vdev_key_got.is_none() {
-                println!("\nUNABLE TO FIND KEY CHARACTER CODEX ::: {key_character}\n");
+                // println!("\nUNABLE TO FIND KEY CHARACTER CODEX ::: {key_character}\n");
                 return;
             }
             let vdev_key = vdev_key_got.unwrap();
@@ -105,5 +105,5 @@ pub fn vdev_emitter(
             }
         }
     }
-    println!("!!! emitted !!!");
+    // println!("!!! emitted !!!");
 }

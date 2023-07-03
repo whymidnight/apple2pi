@@ -62,7 +62,7 @@ impl KbDriverState {
 
         match input.clone() {
             KbDriverInput::KeyDown((modifier, key_code, key_character)) => {
-                println!("KEY_DOWN: {key_character}");
+                // println!("KEY_DOWN: {key_character}");
                 if let Some(last_epoch) = self.last_press_epoch_ms {
                     if now_ms > last_epoch + MULTI_MODIFIER_KEY_CHAIN_TIMEOUT_MS as u128 {
                         self.last_press_epoch_ms = None;
@@ -78,7 +78,7 @@ impl KbDriverState {
                 self.chained_key_inputs.push(input);
             }
             KbDriverInput::KeyUp((_modifier, _key_code, key_character)) => {
-                println!("KEY_UP: {key_character}");
+                // println!("KEY_UP: {key_character}");
                 if self.last_press_epoch_ms.is_some() {
                     if let Some(last_epoch) = self.last_press_epoch_ms {
                         if now_ms < last_epoch + MULTI_MODIFIER_KEY_CHAIN_TIMEOUT_MS as u128 {

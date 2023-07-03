@@ -63,6 +63,7 @@ impl A2PiState {
                 }
                 if payload.len() % 3 != 0 || payload[0] == 0x98 {
                     println!("malformed kb input!!!");
+                    let _may_fail = self.kb_driver.reset(conn);
                     return Ok(());
                 }
 
