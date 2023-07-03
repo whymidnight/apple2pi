@@ -86,6 +86,7 @@ impl A2PiState {
                             }
                             _ => {}
                         }
+                        self.kb_driver.reset_device()
                         // return Ok(());
                     }
                     {

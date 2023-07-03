@@ -3,7 +3,9 @@ use std::collections::HashMap;
 use enigo::KeyboardControllable;
 
 use crate::drivers::kb::{
-    input::KbDriverInput, state::KbDriverState, vdev::key_codex::VdevKeyMacroSequenceEntrant,
+    input::KbDriverInput,
+    state::KbDriverState,
+    vdev::{key_codex::VdevKeyMacroSequenceEntrant, state::VdevDeviceKeyEvent},
 };
 
 use super::device::VdevDevice;
@@ -26,7 +28,12 @@ pub fn vdev_emitter(
             }
             let vdev_key = vdev_key_got.unwrap();
             match vdev_key {
-                super::key_codex::VdevKey::None(key) => enigo.key_down(key),
+                super::key_codex::VdevKey::None(key) => {
+                    vdev_device
+                        .state
+                        .record_key_event(VdevDeviceKeyEvent::record_key_down(key));
+                    enigo.key_down(key)
+                }
                 super::key_codex::VdevKey::Remap(key) => enigo.key_down(key),
                 super::key_codex::VdevKey::Macro(macro_seq) => {
                     let mut trace: HashMap<String, VdevKeyMacroSequenceEntrant> = HashMap::new();
@@ -45,7 +52,11 @@ pub fn vdev_emitter(
                                     if let Some(until_after) = entrant.until_after.clone() {
                                         trace.insert(until_after, entrant.clone());
                                     }
-                                    enigo.key_down(entrant.clone().into_vdev_key());
+                                    let vdev_key = entrant.clone().into_vdev_key();
+                                    vdev_device.state.record_key_event(
+                                        VdevDeviceKeyEvent::record_key_down(vdev_key),
+                                    );
+                                    enigo.key_down(vdev_key);
                                 } else {
                                     enigo.key_click(entrant.clone().into_vdev_key());
                                 }
@@ -61,7 +72,11 @@ pub fn vdev_emitter(
                                     if let Some(until_after) = entrant.until_after.clone() {
                                         trace.insert(until_after, entrant.clone());
                                     }
-                                    enigo.key_down(entrant.clone().into_vdev_key());
+                                    let vdev_key = entrant.clone().into_vdev_key();
+                                    vdev_device.state.record_key_event(
+                                        VdevDeviceKeyEvent::record_key_down(vdev_key),
+                                    );
+                                    enigo.key_down(vdev_key);
                                 } else {
                                     enigo.key_click(entrant.clone().into_vdev_key());
                                 }

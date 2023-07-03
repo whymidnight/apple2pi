@@ -1,14 +1,15 @@
 use std::sync::Arc;
 
-use enigo::Enigo;
+use enigo::{Enigo, KeyboardControllable};
 
-use super::{emitter::vdev_emitter, key_codex::VdevKeys};
+use super::{emitter::vdev_emitter, key_codex::VdevKeys, state::VdevDeviceState};
 
 use crate::drivers::kb::{input::KbDriverInput, state::KbDriverState};
 
 pub struct VdevDevice {
     pub enigo: enigo::Enigo,
     pub key_codex: VdevKeys,
+    pub state: VdevDeviceState,
 }
 
 impl VdevDevice {
@@ -16,6 +17,7 @@ impl VdevDevice {
         Self {
             enigo: Enigo::new(),
             key_codex: VdevKeys::init(),
+            state: VdevDeviceState::init(),
         }
     }
     pub fn emitter(&mut self, kb_driver_state: KbDriverState, kb_driver_input: KbDriverInput) {
@@ -31,5 +33,14 @@ impl VdevDevice {
         }
 
         vdev_emitter(self, kb_driver_state, kb_driver_input)
+    }
+    pub fn clear(&mut self) {
+        let keys_down = &mut self.state.active_keys_down;
+        for key_down in keys_down.clone() {
+            match key_down {
+                super::state::VdevDeviceKeyEvent::KeyDown(key) => self.enigo.key_up(key),
+            }
+        }
+        *keys_down = Vec::new()
     }
 }

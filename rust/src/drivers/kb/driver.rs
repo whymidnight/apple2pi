@@ -70,4 +70,9 @@ impl KbDriver {
     pub fn emit_state(&self, state: KbDriverState) {
         state.print(&|scan_code| self.clone().lookup_scan_code(scan_code))
     }
+
+    pub fn reset_device(&mut self) {
+        let device = Arc::get_mut(&mut self.device).unwrap();
+        device.clear()
+    }
 }
