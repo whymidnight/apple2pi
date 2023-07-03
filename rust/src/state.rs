@@ -87,8 +87,9 @@ impl A2PiState {
                             }
                             _ => {}
                         }
-                        self.kb_driver.reset_device()
-                        // return Ok(());
+                        self.kb_driver.reset_device();
+                        let _may_fail = self.kb_driver.reset(conn);
+                        return Ok(());
                     }
                     {
                         let guard = self.kb_driver_state.try_lock();
