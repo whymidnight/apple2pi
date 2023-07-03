@@ -5,6 +5,9 @@ use crate::{
 use mio_serial::SerialStream;
 use std::sync::Arc;
 
+use hex::FromHex;
+use std::io::Write;
+
 use parking_lot::FairMutex;
 
 #[derive(Debug, Clone)]
@@ -56,6 +59,8 @@ impl A2PiState {
                     }
                     Err(e) => {
                         println!("{:02X?} {:?}", payload, e);
+                        let ack = <[u8; 1]>::from_hex("80").unwrap();
+                        let ack_write = conn.write(&ack);
                     }
                 }
             }
