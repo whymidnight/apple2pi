@@ -61,7 +61,7 @@ impl A2PiState {
                     self.state = State::Start;
                     return Ok(());
                 }
-                if payload.len() % 3 != 0 || payload.len() != 3 || payload[0] == 0x98 {
+                if payload.len() % 3 != 0 || payload[0] == 0x98 {
                     println!("malformed kb input!!!");
                     return Ok(());
                 }
