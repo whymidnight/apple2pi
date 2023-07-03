@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
-use mio_serial::SerialStream;
 use parking_lot::FairMutex;
+use tokio_serial::SerialStream;
 
 use crate::errors::A2PiError;
 
