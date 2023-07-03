@@ -19,7 +19,9 @@ impl Modifiers {
             bare if modifier_scan_code == 0x0u8 => Some(Modifiers::Bare(bare)),
             open if modifier_scan_code == 0x40u8 => Some(Modifiers::OpenApple(open)),
             closed if modifier_scan_code == 0x80u8 => Some(Modifiers::ClosedApple(closed)),
-            open_closed if modifier_scan_code == 0xC0u8 => Some(Modifiers::OpenClosedApple(closed)),
+            open_closed if modifier_scan_code == 0xC0u8 => {
+                Some(Modifiers::OpenClosedApple(open_closed))
+            }
             _ => None,
         }
     }
@@ -48,6 +50,7 @@ impl PartialEq for Modifiers {
             Self::Bare(bare) => bare == &cmp_inner,
             Self::OpenApple(open) => open == &cmp_inner,
             Self::ClosedApple(closed) => closed == &cmp_inner,
+            Self::OpenClosedApple(open_closed) => open_closed == &cmp_inner,
         }
     }
 }

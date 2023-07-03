@@ -12,7 +12,7 @@ pub struct VdevKeyMacroSequenceEntrant {
 }
 
 impl VdevKeyMacroSequenceEntrant {
-    pub fn from_spec() {}
+    // pub fn from_spec() {}
     pub fn into_vdev_key(self) -> Key {
         match self.to.as_str() {
             "CTRL" => Key::Control,
@@ -33,7 +33,7 @@ impl VdevKeyMacroSequenceEntrant {
             "DOWN" => Key::DownArrow,
             /* directional keys end */
             _ => {
-                let mut to_char = self.to.chars();
+                let to_char = self.to.chars();
                 let c = to_char.take(1).last().unwrap();
                 Key::Layout(c)
             }
@@ -199,7 +199,6 @@ impl VdevKeys {
                     (
                         "1".to_string(),
                         VdevKeyMacroSequenceEntrant {
-
                             to: "h".to_string(),
                             until: None,
                             until_after: None,
@@ -637,11 +636,12 @@ impl VdevKeys {
                     ),
                 ]),
             ),
-            (0xC0, HashMap::from([
-                    (
-                        "Enter".to_string(),
-                        VdevKey::Macro(VdevKeyMacro::from([
-                                                          (
+            (
+                0xC0,
+                HashMap::from([(
+                    "Enter".to_string(),
+                    VdevKey::Macro(VdevKeyMacro::from([
+                        (
                             "0".to_string(),
                             VdevKeyMacroSequenceEntrant {
                                 to: "CTRL".to_string(),
@@ -649,17 +649,17 @@ impl VdevKeys {
                                 until_after: Some("1".to_string()),
                             },
                         ),
-                                                          (
+                        (
                             "1".to_string(),
                             VdevKeyMacroSequenceEntrant {
                                 to: "TAB".to_string(),
                                 until: None,
                                 until_after: None,
                             },
-                        )
-                        ])),
-                    ),
-            ])),
+                        ),
+                    ])),
+                )]),
+            ),
         ])
     }
     pub fn init() -> VdevKeys {
@@ -677,6 +677,10 @@ impl VdevKeys {
                 layer.get(&key_character).cloned()
             }
             Modifiers::ClosedApple(_) => {
+                let layer = self.layers.get(&modifier.inner()).cloned().unwrap();
+                layer.get(&key_character).cloned()
+            }
+            Modifiers::OpenClosedApple(_) => {
                 let layer = self.layers.get(&modifier.inner()).cloned().unwrap();
                 layer.get(&key_character).cloned()
             }
