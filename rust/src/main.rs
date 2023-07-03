@@ -56,7 +56,8 @@ impl Decoder for LineCodec {
 
         let _handler = self.a2pi.handler(&mut conn, src.to_vec().as_slice());
 
-        return Ok(None);
+        src.clear();
+        Ok(None)
     }
 }
 

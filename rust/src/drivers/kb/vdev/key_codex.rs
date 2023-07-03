@@ -305,7 +305,7 @@ impl VdevKeys {
                     (
                         "1".to_string(),
                         VdevKeyMacroSequenceEntrant {
-                            to: "U".to_string(),
+                            to: "u".to_string(),
                             until: None,
                             until_after: None,
                         },
@@ -326,7 +326,7 @@ impl VdevKeys {
                     (
                         "1".to_string(),
                         VdevKeyMacroSequenceEntrant {
-                            to: "R".to_string(),
+                            to: "r".to_string(),
                             until: None,
                             until_after: None,
                         },

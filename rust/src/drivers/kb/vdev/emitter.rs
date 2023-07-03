@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use itertools::Itertools;
+
 use enigo::KeyboardControllable;
 
 use crate::drivers::kb::{
@@ -37,9 +39,8 @@ pub fn vdev_emitter(
                 super::key_codex::VdevKey::Remap(key) => enigo.key_down(key),
                 super::key_codex::VdevKey::Macro(macro_seq) => {
                     let mut trace: HashMap<String, VdevKeyMacroSequenceEntrant> = HashMap::new();
-                    for k in macro_seq.keys() {
-                        let entrant = macro_seq.get(k).unwrap();
-
+                    println!("{:?}", macro_seq.keys());
+                    for (k, entrant) in macro_seq.iter().sorted_by_key(|sk| sk.0) {
                         match trace.clone().get(k) {
                             Some(e) => {
                                 println!("{:?}", e.clone().to);
