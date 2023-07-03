@@ -1,7 +1,7 @@
 PACKAGE=a2pi-rs
 VERSION=0.2.3
 DESTDIR=/usr/local
-HAREDIR=$(DESTDIR)/share/a2pi)
+SHAREDIR=$(DESTDIR)/share/a2pi
 SBIN=./target/release/a2pi-rs
 
 a2pi-rs:
@@ -12,17 +12,18 @@ clean:
 
 install:
 	sudo systemctl stop a2pi | true
-	-mkdir -p $(SHAREDIR)
+	mkdir -p $(SHAREDIR)
 	cp $(SBIN) $(SHAREDIR)
 	cp -R ./share/* $(SHAREDIR)
-	sudo systemctl enable --system $(SHAREDIR)/a2pi.service
+	cp -R ./rust/a2pi_keymaps $(SHAREDIR)
+	sudo systemctl enable $(SHAREDIR)/a2pi.service
 	sudo systemctl daemon-reload
 
 start:
-	sudo systemctl start $(SHAREDIR)/a2pi.service
+	sudo systemctl start a2pi
 
 restart:
-	sudo systemctl restart $(SHAREDIR)/a2pi.service
+	sudo systemctl restart a2pi
 
 reload:
 	sudo systemctl daemon-reload
