@@ -158,6 +158,238 @@ impl VdevKeys {
             ("ESCAPE".to_string(), VdevKey::None(Key::Layout('^'))),
             ("CTRL-I".to_string(), VdevKey::None(Key::Escape)),
             ("' '".to_string(), VdevKey::None(Key::Space)),
+            /* CONTROL KEY COMBOS */
+            (
+                "CTRL-A".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "a".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
+            (
+                "CTRL-H".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "h".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
+            (
+                "CTRL-J".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "j".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
+            (
+                "CTRL-K".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "k".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
+            (
+                "CTRL-L".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "l".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
+            (
+                "CTRL-D".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "d".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
+            (
+                "CTRL-U".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "u".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
+            (
+                "CTRL-R".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "r".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
+            (
+                "CTRL-W".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "w".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
+            (
+                "CTRL-E".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "e".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
+            (
+                "CTRL-Y".to_string(),
+                VdevKey::Macro(VdevKeyMacro::from([
+                    (
+                        "0".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "CTRL".to_string(),
+                            until: None,
+                            until_after: Some("1".to_string()),
+                        },
+                    ),
+                    (
+                        "1".to_string(),
+                        VdevKeyMacroSequenceEntrant {
+                            to: "y".to_string(),
+                            until: None,
+                            until_after: None,
+                        },
+                    ),
+                ])),
+            ),
         ])
     }
     pub fn init_layers() -> VdevKeyLayerCodex {
