@@ -637,7 +637,29 @@ impl VdevKeys {
                     ),
                 ]),
             ),
-            (0xC0, HashMap::from([])),
+            (0xC0, HashMap::from([
+                    (
+                        "Enter".to_string(),
+                        VdevKey::Macro(VdevKeyMacro::from([
+                                                          (
+                            "0".to_string(),
+                            VdevKeyMacroSequenceEntrant {
+                                to: "CTRL".to_string(),
+                                until: None,
+                                until_after: Some("1".to_string()),
+                            },
+                        ),
+                                                          (
+                            "1".to_string(),
+                            VdevKeyMacroSequenceEntrant {
+                                to: "TAB".to_string(),
+                                until: None,
+                                until_after: None,
+                            },
+                        )
+                        ])),
+                    ),
+            ])),
         ])
     }
     pub fn init() -> VdevKeys {

@@ -10,6 +10,7 @@ pub enum Modifiers {
     Bare(u8),
     OpenApple(u8),
     ClosedApple(u8),
+    OpenClosedApple(u8),
 }
 
 impl Modifiers {
@@ -18,6 +19,7 @@ impl Modifiers {
             bare if modifier_scan_code == 0x0u8 => Some(Modifiers::Bare(bare)),
             open if modifier_scan_code == 0x40u8 => Some(Modifiers::OpenApple(open)),
             closed if modifier_scan_code == 0x80u8 => Some(Modifiers::ClosedApple(closed)),
+            open_closed if modifier_scan_code == 0xC0u8 => Some(Modifiers::OpenClosedApple(closed)),
             _ => None,
         }
     }
@@ -26,6 +28,7 @@ impl Modifiers {
             Self::Bare(bare) => bare,
             Self::OpenApple(open) => open,
             Self::ClosedApple(closed) => closed,
+            Self::OpenClosedApple(open_closed) => open_closed,
         }
     }
     pub fn outer_as_string(self) -> String {
@@ -33,6 +36,7 @@ impl Modifiers {
             Self::Bare(_) => "bare".to_string(),
             Self::OpenApple(_) => "open".to_string(),
             Self::ClosedApple(_) => "closed".to_string(),
+            Self::OpenClosedApple(_) => "open_closed".to_string(),
         }
     }
 }
