@@ -161,7 +161,99 @@ impl VdevKeys {
     }
     pub fn init_layers() -> VdevKeyLayerCodex {
         HashMap::from([
-            (0x40, HashMap::from([])),
+            (
+                0x40,
+                HashMap::from([
+                    (
+                        "n".to_string(),
+                        VdevKey::Macro(VdevKeyMacro::from([(
+                            "0".to_string(),
+                            VdevKeyMacroSequenceEntrant {
+                                to: "~".to_string(),
+                                until: None,
+                                until_after: None,
+                            },
+                        )])),
+                    ),
+                    (
+                        "l".to_string(),
+                        VdevKey::Macro(VdevKeyMacro::from([(
+                            "0".to_string(),
+                            VdevKeyMacroSequenceEntrant {
+                                to: "@".to_string(),
+                                until: None,
+                                until_after: None,
+                            },
+                        )])),
+                    ),
+                    (
+                        "5".to_string(),
+                        VdevKey::Macro(VdevKeyMacro::from([(
+                            "0".to_string(),
+                            VdevKeyMacroSequenceEntrant {
+                                to: "[".to_string(),
+                                until: None,
+                                until_after: None,
+                            },
+                        )])),
+                    ),
+                    (
+                        "6".to_string(),
+                        VdevKey::Macro(VdevKeyMacro::from([(
+                            "0".to_string(),
+                            VdevKeyMacroSequenceEntrant {
+                                to: "]".to_string(),
+                                until: None,
+                                until_after: None,
+                            },
+                        )])),
+                    ),
+                    (
+                        "7".to_string(),
+                        VdevKey::Macro(VdevKeyMacro::from([(
+                            "0".to_string(),
+                            VdevKeyMacroSequenceEntrant {
+                                to: "|".to_string(),
+                                until: None,
+                                until_after: None,
+                            },
+                        )])),
+                    ),
+                    (
+                        "/".to_string(),
+                        VdevKey::Macro(VdevKeyMacro::from([(
+                            "0".to_string(),
+                            VdevKeyMacroSequenceEntrant {
+                                to: "\\".to_string(),
+                                until: None,
+                                until_after: None,
+                            },
+                        )])),
+                    ),
+                    (
+                        "8".to_string(),
+                        VdevKey::Macro(VdevKeyMacro::from([(
+                            "0".to_string(),
+                            VdevKeyMacroSequenceEntrant {
+                                to: "{".to_string(),
+                                until: None,
+                                until_after: None,
+                            },
+                        )])),
+                    ),
+                    (
+                        "9".to_string(),
+                        VdevKey::Macro(VdevKeyMacro::from([(
+                            "0".to_string(),
+                            VdevKeyMacroSequenceEntrant {
+                                to: "}".to_string(),
+                                until: None,
+                                until_after: None,
+                            },
+                        )])),
+                    ),
+                ]),
+            ),
             (
                 0x80,
                 HashMap::from([
