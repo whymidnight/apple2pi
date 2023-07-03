@@ -47,19 +47,16 @@ impl LineCodec {
 }
 
 impl Decoder for LineCodec {
-    type Item = A2PiError;
+    type Item = Result<(), A2PiError>;
     type Error = io::Error;
 
     fn decode(&mut self, src: &mut BytesMut) -> Result<Option<Self::Item>, Self::Error> {
-        let mut conn = tokio_serial::new(DEFAULT_TTY, 115200).open_native_async()?;
+        let mut conn = tokio_serial::new(DEFAULT_TTY, 115200).open_native_async().unwrap();
+        conn.set_exclusive(false).unwrap();
 
-        let handler = self.a2pi.handler(&mut conn, src.to_vec().as_slice());
+        let _handler = self.a2pi.handler(&mut conn, src.to_vec().as_slice());
 
-        if let Err(handler_err) = handler {
-            println!("{:?}", handler_err);
-            return Ok(Some(handler_err));
-        }
-        Ok(None)
+        return Ok(None);
     }
 }
 
@@ -84,6 +81,7 @@ async fn main() -> tokio_serial::Result<()> {
     let _path = args.nth(1).unwrap_or(DEFAULT_TTY.into());
 
     let mut conn = tokio_serial::new(DEFAULT_TTY, 115200).open_native_async()?;
+    conn.set_exclusive(false)?;
 
     let ack = <[u8; 1]>::from_hex("80").unwrap();
     let ack_write = conn.write(&ack);
@@ -97,8 +95,8 @@ async fn main() -> tokio_serial::Result<()> {
     while !term_now.load(Ordering::Relaxed) {
         while let Some(buf) = reader.next().await {
             match buf {
-                Ok(_buf) => {
-                    // do something
+                Ok(buf) => {
+                    println!("{:?}", buf)
                 }
                 Err(e) => {
                     println!("{:?}", e)
