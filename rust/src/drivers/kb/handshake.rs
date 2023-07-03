@@ -1,6 +1,6 @@
 use hex::FromHex;
+use mio_serial::{SerialPort, SerialStream};
 use std::io::Write;
-use tokio_serial::{SerialPort, SerialStream};
 
 use crate::errors::A2PiError;
 

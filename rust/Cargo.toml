@@ -13,27 +13,9 @@ workspaces = [
 name = "repl_keycodes"
 path = "./repl/keycodes.rs"
 
-[[bin]]
-name = "a2pi-rs"
-path = "src/main.rs"
-default-features = ["rt", "codec", "rt-multi-thread", "multi-thread", "macros", "codec"]
-
-[features]
-default = ["codec"]
-libudev = ["mio-serial/libudev"]
-rt = ["tokio/rt-multi-thread"]
-codec = ["tokio-util/codec", "bytes"]
-
 [dependencies]
 mio = "0.8"
 mio-serial = "5.0.1"
-
-futures = "0.3"
-tokio = { version = "^1.8", default-features = false, features = ["macros", "rt", "rt-multi-thread", "process", "time", "fs", "io-util", "net"] }
-tokio-serial = "5.4.1"
-tokio-util = "0.7"
-bytes = { version = "1", default-features = false, optional = true }
-
 hex = "0.4.3"
 repl-rs = "0.2.7"
 indoc = "2"
