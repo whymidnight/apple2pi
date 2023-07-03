@@ -57,15 +57,11 @@ impl A2PiState {
                 }
             }
             State::Run => {
-                if payload[0] == 0x80 {
-                    self.state = State::Start;
-                    return Ok(());
-                }
                 if payload.len() % 3 != 0 || payload[0] == 0x98 {
                     println!("malformed kb input!!!");
-                    self.state = State::Start;
-                    self.kb_driver.reset_device();
-                    let _may_fail = self.kb_driver.reset(conn);
+                    if payload[0] != 0x98 {
+                        self.kb_driver.reset_device();
+                    }
                     return Ok(());
                 }
 
