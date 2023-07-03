@@ -157,7 +157,7 @@ impl VdevKeys {
             ("BS".to_string(), VdevKey::None(Key::Backspace)),
             ("ESCAPE".to_string(), VdevKey::None(Key::Layout('^'))),
             ("CTRL-I".to_string(), VdevKey::None(Key::Escape)),
-            (" ".to_string(), VdevKey::None(Key::Space)),
+            ("' '".to_string(), VdevKey::None(Key::Space)),
         ])
     }
     pub fn init_layers() -> VdevKeyLayerCodex {
