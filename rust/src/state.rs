@@ -61,41 +61,46 @@ impl A2PiState {
                     self.state = State::Start;
                     return Ok(());
                 }
-                if payload.len() != 3 || payload[0] == 0x98 {
+                if payload.len() % 3 != 0 || payload.len() != 3 || payload[0] == 0x98 {
                     println!("malformed kb input!!!");
                     return Ok(());
                 }
 
-                let kb_input = KbDriverInput::from_apple_ii(payload, &|scan_code| {
-                    self.kb_driver.clone().lookup_scan_code(scan_code)
-                });
-                if let Err(e) = kb_input {
-                    match e {
-                        A2PiError::InvalidKBPayload => {
-                            self.state = State::Start;
+                // payload.len() may exceed 3 indicating an multi key presses
+                // so we should chunk each 3 pair and iter over each key press
+                let chunks: Vec<&[u8]> = payload.chunks(3).collect();
+                for payload_chunk in chunks {
+                    let kb_input = KbDriverInput::from_apple_ii(payload_chunk, &|scan_code| {
+                        self.kb_driver.clone().lookup_scan_code(scan_code)
+                    });
+                    if let Err(e) = kb_input {
+                        match e {
+                            A2PiError::InvalidKBPayload => {
+                                self.state = State::Start;
+                            }
+                            A2PiError::InvalidKBInput => {
+                                println!("invalid kb input!!!");
+                            }
+                            A2PiError::InvalidKBModifier => {
+                                println!("invalid kb modifier!!!");
+                            }
+                            _ => {}
                         }
-                        A2PiError::InvalidKBInput => {
-                            println!("invalid kb input!!!");
-                        }
-                        A2PiError::InvalidKBModifier => {
-                            println!("invalid kb modifier!!!");
-                        }
-                        _ => {}
+                        // return Ok(());
                     }
-                    return Ok(());
-                }
-                {
-                    let guard = self.kb_driver_state.try_lock();
-                    if let Some(mut kb_driver_state) = guard {
-                        let kb_inp = kb_input.unwrap().unwrap();
+                    {
+                        let guard = self.kb_driver_state.try_lock();
+                        if let Some(mut kb_driver_state) = guard {
+                            let kb_inp = kb_input.unwrap().clone().unwrap();
 
-                        (*kb_driver_state).process_input(kb_inp.clone());
+                            (*kb_driver_state).process_input(kb_inp.clone());
 
-                        //
-                        self.kb_driver
-                            .emit_to_device((*kb_driver_state).clone(), kb_inp);
-                    } else {
-                        println!("kb_driver_state is locked. unable to handle kb input!!!");
+                            //
+                            self.kb_driver
+                                .emit_to_device((*kb_driver_state).clone(), kb_inp);
+                        } else {
+                            println!("kb_driver_state is locked. unable to handle kb input!!!");
+                        }
                     }
                 }
             }
