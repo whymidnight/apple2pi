@@ -20,14 +20,14 @@ pub struct KbDriver {
     /// where `key` is the supposed rendered sequence
     /// where `action` is the supposed recorded sequence
     pub key_map: KeyMap,
-    pub device: Arc<FairMutex<VdevDevice>>,
+    pub device: Arc<VdevDevice>,
 }
 
 impl KbDriver {
     pub fn init(keymap_file: Option<String>) -> KbDriver {
         KbDriver {
             key_map: KeyMap::open(keymap_file),
-            device: Arc::new(FairMutex::new(VdevDevice::init())),
+            device: Arc::new(VdevDevice::init()),
         }
     }
 
@@ -61,20 +61,25 @@ impl KbDriver {
         }
     }
 
-    pub fn emit_to_device(&mut self, state: KbDriverState, input: KbDriverInput) {
+    pub fn emit_to_device(&mut self, state: Arc<KbDriverState>, input: KbDriverInput) {
         // let device = Arc::get_mut(&mut self.device).unwrap();
-        let mut device = self.device.lock();
-        device.emitter(state.clone(), input);
+        let mut device = Arc::get_mut(&mut self.device).unwrap();
+        device.emitter(state, input);
 
-        self.emit_state(state)
+        //self.emit_state(state)
     }
 
-    pub fn emit_state(&self, state: KbDriverState) {
-        state.print(&|scan_code| self.clone().lookup_scan_code(scan_code))
+    pub fn emit_state(&self, state: Arc<KbDriverState>) {
+        /*
+        state
+            .clone()
+            .print(&|scan_code| self.clone().lookup_scan_code(scan_code.clone()))
+            .clone()
+        */
     }
 
     pub fn reset_device(&mut self) {
-        let mut device = self.device.lock();
+        let device = Arc::get_mut(&mut self.device).unwrap();
         device.clear()
     }
 }

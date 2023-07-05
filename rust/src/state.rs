@@ -18,7 +18,7 @@ pub enum State {
 pub struct A2PiState {
     pub state: State,
     pub kb_driver: KbDriver,
-    pub kb_driver_state: Arc<FairMutex<KbDriverState>>,
+    pub kb_driver_state: Arc<KbDriverState>,
     pub rx_buffer: Vec<u8>,
 }
 
@@ -38,7 +38,7 @@ impl A2PiState {
         A2PiState {
             state: State::Start,
             kb_driver: KbDriver::init(None),
-            kb_driver_state: Arc::new(FairMutex::new(KbDriverState::reset())),
+            kb_driver_state: Arc::new(KbDriverState::reset()),
             rx_buffer: Vec::new(),
         }
     }
@@ -119,16 +119,18 @@ impl A2PiState {
                         self.kb_driver.reset_device();
                         return Ok(());
                     }
+                    let kb_inp = kb_input.unwrap().clone().unwrap();
+                    self.kb_driver.reset_device();
+                    self.kb_driver
+                        .emit_to_device(self.kb_driver_state.clone(), kb_inp);
+                    /*
                     {
                         self.kb_driver.reset_device();
                         let guard = self.kb_driver_state.try_lock();
                         if let Some(mut kb_driver_state) = guard {
-                            let kb_inp = kb_input.unwrap().clone().unwrap();
 
                             (*kb_driver_state).process_input(kb_inp.clone());
 
-                            self.kb_driver
-                                .emit_to_device((*kb_driver_state).clone(), kb_inp);
                             /*
                                 if !kb_driver_state.chained_key_inputs.is_empty() {
                                 } else {
@@ -138,6 +140,7 @@ impl A2PiState {
                             println!("kb_driver_state is locked. unable to handle kb input!!!");
                         }
                     }
+                            */
                 }
             }
         }

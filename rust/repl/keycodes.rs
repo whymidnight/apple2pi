@@ -6,18 +6,7 @@ use std::collections::HashMap;
 use std::str;
 
 fn from_keydown_hex<T>(args: HashMap<String, Value>, _context: &mut T) -> Result<Option<String>> {
-    let keydown_hex_input: String = args["keydown_hex"].convert()?;
-    let keydown_hex = <[u8; 1]>::from_hex(keydown_hex_input).unwrap();
-
-    let key_up = (keydown_hex[0] << 2) - 0;
-    let key_up_hex = format!("{:2X?}", key_up);
-
-    let character = str::from_utf8(&keydown_hex).unwrap().to_string();
-    let result = formatdoc! {r#"
-        character: {character}
-        key_up_hex: {key_up_hex}
-        "#, character = character, key_up_hex = key_up_hex};
-    Ok(Some(result))
+    Ok(None)
 }
 
 fn main() -> Result<()> {

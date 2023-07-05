@@ -12,11 +12,7 @@ use crate::drivers::kb::{
 
 use super::device::VdevDevice;
 
-pub fn vdev_emitter(
-    vdev_device: &mut VdevDevice,
-    _kb_driver_state: KbDriverState,
-    kb_driver_input: KbDriverInput,
-) {
+pub fn vdev_emitter(vdev_device: &mut VdevDevice, kb_driver_input: KbDriverInput) {
     let enigo = &mut vdev_device.enigo;
     match kb_driver_input {
         KbDriverInput::KeyDown((modifier, _key, key_character)) => {
