@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use mio_serial::SerialStream;
-use parking_lot::FairMutex;
+// use parking_lot::FairMutex;
 
 use crate::errors::A2PiError;
 
@@ -10,7 +10,7 @@ use super::{
     input::{KbDriverInput, KEY_ASCII},
     kbmap::{Key, KeyMap},
     state::KbDriverState,
-    vdev::device::VdevDevice,
+    // vdev::device::VdevDevice,
 };
 
 #[derive(Clone)]
@@ -20,14 +20,14 @@ pub struct KbDriver {
     /// where `key` is the supposed rendered sequence
     /// where `action` is the supposed recorded sequence
     pub key_map: KeyMap,
-    pub device: Arc<VdevDevice>,
+    // pub device: Arc<VdevDevice>,
 }
 
 impl KbDriver {
     pub fn init(keymap_file: Option<String>) -> KbDriver {
         KbDriver {
             key_map: KeyMap::open(keymap_file),
-            device: Arc::new(VdevDevice::init()),
+            // device: Arc::new(VdevDevice::init()),
         }
     }
 
@@ -62,11 +62,13 @@ impl KbDriver {
     }
 
     pub fn emit_to_device(&mut self, state: Arc<KbDriverState>, input: KbDriverInput) {
+        /*
         // let device = Arc::get_mut(&mut self.device).unwrap();
         let mut device = Arc::get_mut(&mut self.device).unwrap();
         device.emitter(state, input);
 
         //self.emit_state(state)
+        */
     }
 
     pub fn emit_state(&self, state: Arc<KbDriverState>) {
@@ -79,7 +81,9 @@ impl KbDriver {
     }
 
     pub fn reset_device(&mut self) {
+        /*
         let device = Arc::get_mut(&mut self.device).unwrap();
         device.clear()
+        */
     }
 }
