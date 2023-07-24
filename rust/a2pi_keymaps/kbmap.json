@@ -1,514 +1,516 @@
 {
   "0x00": {
-    "key": "CTRL-@",
-    "action": "CTRL+SHIFT+KEY_2"
-  },
-  "0x01": {
-    "key": "CTRL-A",
-    "action": "CTRL+KEY_A"
-  },
-  "0x02": {
-    "key": "CTRL-B",
-    "action": "CTRL+KEY_B"
-  },
-  "0x03": {
-    "key": "CTRL-C",
-    "action": "CTRL+KEY_C"
-  },
-  "0x04": {
-    "key": "CTRL-D",
-    "action": "CTRL+KEY_D"
-  },
-  "0x05": {
-    "key": "CTRL-E",
-    "action": "CTRL+KEY_E"
-  },
-  "0x06": {
-    "key": "CTRL-F",
-    "action": "CTRL+KEY_F"
-  },
-  "0x07": {
-    "key": "CTRL-G",
-    "action": "CTRL+KEY_G"
-  },
-  "0x08": {
-    "key": "CTRL-H",
-    "action": "KEY_LEFT"
-  },
-  "0x09": {
-    "key": "CTRL-I",
-    "action": "KEY_TAB"
-  },
-  "0x0A": {
-    "key": "CTRL-J",
-    "action": "KEY_DOWN"
-  },
-  "0x0B": {
-    "key": "CTRL-K",
-    "action": "KEY_UP"
-  },
-  "0x0C": {
-    "key": "CTRL-L",
-    "action": "CTRL+KEY_L"
-  },
-  "0x0D": {
-    "key": "Enter",
-    "action": "KEY_ENTER"
-  },
-  "0x0E": {
-    "key": "CTRL-N",
-    "action": "CTRL+KEY_N"
-  },
-  "0x0F": {
-    "key": "CTRL-O",
-    "action": "CTRL+KEY_O"
-  },
-  "0x10": {
-    "key": "CTRL-P",
-    "action": "CTRL+KEY_P"
-  },
-  "0x11": {
-    "key": "CTRL-Q",
-    "action": "CTRL+KEY_Q"
-  },
-  "0x12": {
-    "key": "CTRL-R",
-    "action": "CTRL+KEY_R"
-  },
-  "0x13": {
-    "key": "CTRL-S",
-    "action": "CTRL+KEY_S"
-  },
-  "0x14": {
-    "key": "CTRL-T",
-    "action": "CTRL+KEY_T"
-  },
-  "0x15": {
-    "key": "CTRL-U",
-    "action": "KEY_RIGHT"
-  },
-  "0x16": {
-    "key": "CTRL-V",
-    "action": "CTRL+KEY_V"
-  },
-  "0x17": {
-    "key": "CTRL-W",
-    "action": "CTRL+KEY_W"
-  },
-  "0x18": {
-    "key": "CTRL-X",
-    "action": "CTRL+KEY_X"
-  },
-  "0x19": {
-    "key": "CTRL-Y",
-    "action": "CTRL+KEY_Y"
-  },
-  "0x1A": {
-    "key": "CTRL-Z",
-    "action": "CTRL+KEY_Z"
-  },
-  "0x1B": {
-    "key": "ESCAPE",
-    "action": "KEY_ESC"
-  },
-  "0x1C": {
-    "key": "CTRL-\\",
-    "action": "CTRL+KEY_BACKSLASH"
-  },
-  "0x1D": {
-    "key": "CTRL-]",
-    "action": "CTRL+KEY_RIGHTBRACE"
-  },
-  "0x1E": {
-    "key": "CTRL-6",
-    "action": "CTRL+KEY_6"
-  },
-  "0x1F": {
-    "key": "CTRL--",
-    "action": "CTRL+KEY_MINUS"
-  },
-  "0x20": {
-    "key": "' '",
-    "action": "KEY_SPACE"
-  },
-  "0x21": {
-    "key": "!",
-    "action": "SHIFT+KEY_1"
-  },
-  "0x22": {
-    "key": "\"",
-    "action": "SHIFT+KEY_APOSTROPHE"
-  },
-  "0x23": {
-    "key": "#",
-    "action": "SHIFT+KEY_3"
-  },
-  "0x24": {
-    "key": "$",
-    "action": "SHIFT+KEY_4"
-  },
-  "0x25": {
-    "key": "%",
-    "action": "SHIFT+KEY_5"
-  },
-  "0x26": {
-    "key": "&",
-    "action": "SHIFT+KEY_7"
-  },
-  "0x27": {
-    "key": "'",
-    "action": "KEY_APOSTROPHE"
-  },
-  "0x28": {
-    "key": "(",
-    "action": "SHIFT+KEY_9"
-  },
-  "0x29": {
-    "key": ")",
-    "action": "SHIFT+KEY_0"
-  },
-  "0x2A": {
-    "key": "*",
-    "action": "SHIFT+KEY_8"
-  },
-  "0x2B": {
-    "key": "+",
-    "action": "SHIFT+KEY_EQUAL"
-  },
-  "0x2C": {
-    "key": ",",
-    "action": "KEY_COMMA"
-  },
-  "0x2D": {
-    "key": "-",
-    "action": "KEY_MINUS"
-  },
-  "0x2E": {
-    "key": ".",
-    "action": "KEY_DOT"
-  },
-  "0x2F": {
-    "key": "/",
-    "action": "KEY_SLASH"
-  },
-  "0x30": {
-    "key": "0",
-    "action": "KEY_0"
-  },
-  "0x31": {
-    "key": "1",
-    "action": "KEY_1"
-  },
-  "0x32": {
-    "key": "2",
-    "action": "KEY_2"
-  },
-  "0x33": {
-    "key": "3",
-    "action": "KEY_3"
-  },
-  "0x34": {
-    "key": "4",
-    "action": "KEY_4"
-  },
-  "0x35": {
-    "key": "5",
-    "action": "KEY_5"
-  },
-  "0x36": {
-    "key": "6",
-    "action": "KEY_6"
-  },
-  "0x37": {
-    "key": "7",
-    "action": "KEY_7"
-  },
-  "0x38": {
-    "key": "8",
-    "action": "KEY_8"
-  },
-  "0x39": {
-    "key": "9",
-    "action": "KEY_9"
-  },
-  "0x3A": {
-    "key": ":",
-    "action": "SHIFT+KEY_SEMICOLON"
-  },
-  "0x3B": {
-    "key": ";",
-    "action": "KEY_SEMICOLON"
-  },
-  "0x3C": {
-    "key": "<",
-    "action": "SHIFT+KEY_COMMA"
-  },
-  "0x3D": {
-    "key": "=",
-    "action": "KEY_EQUAL"
-  },
-  "0x3E": {
-    "key": ">",
-    "action": "SHIFT+KEY_DOT"
-  },
-  "0x3F": {
-    "key": "?",
-    "action": "SHIFT+KEY_SLASH"
-  },
-  "0x40": {
-    "key": "@",
-    "action": "SHIFT+KEY_2"
-  },
-  "0x41": {
-    "key": "A",
-    "action": "SHIFT+KEY_A"
-  },
-  "0x42": {
-    "key": "B",
-    "action": "SHIFT+KEY_B"
-  },
-  "0x43": {
-    "key": "C",
-    "action": "SHIFT+KEY_C"
-  },
-  "0x44": {
-    "key": "D",
-    "action": "SHIFT+KEY_D"
-  },
-  "0x45": {
-    "key": "E",
-    "action": "SHIFT+KEY_E"
-  },
-  "0x46": {
-    "key": "F",
-    "action": "SHIFT+KEY_F"
-  },
-  "0x47": {
-    "key": "G",
-    "action": "SHIFT+KEY_G"
-  },
-  "0x48": {
-    "key": "H",
-    "action": "SHIFT+KEY_H"
-  },
-  "0x49": {
-    "key": "I",
-    "action": "SHIFT+KEY_I"
-  },
-  "0x4A": {
-    "key": "J",
-    "action": "SHIFT+KEY_J"
-  },
-  "0x4B": {
-    "key": "K",
-    "action": "SHIFT+KEY_K"
-  },
-  "0x4C": {
-    "key": "L",
-    "action": "SHIFT+KEY_L"
-  },
-  "0x4D": {
-    "key": "M",
-    "action": "SHIFT+KEY_M"
-  },
-  "0x4E": {
-    "key": "N",
-    "action": "SHIFT+KEY_N"
-  },
-  "0x4F": {
-    "key": "O",
-    "action": "SHIFT+KEY_O"
-  },
-  "0x50": {
-    "key": "P",
-    "action": "SHIFT+KEY_P"
-  },
-  "0x51": {
-    "key": "Q",
-    "action": "SHIFT+KEY_Q"
-  },
-  "0x52": {
-    "key": "R",
-    "action": "SHIFT+KEY_R"
-  },
-  "0x53": {
-    "key": "S",
-    "action": "SHIFT+KEY_S"
-  },
-  "0x54": {
-    "key": "T",
-    "action": "SHIFT+KEY_T"
-  },
-  "0x55": {
-    "key": "U",
-    "action": "SHIFT+KEY_U"
-  },
-  "0x56": {
-    "key": "V",
-    "action": "SHIFT+KEY_V"
-  },
-  "0x57": {
-    "key": "W",
-    "action": "SHIFT+KEY_W"
-  },
-  "0x58": {
-    "key": "X",
-    "action": "SHIFT+KEY_X"
-  },
-  "0x59": {
-    "key": "Y",
-    "action": "SHIFT+KEY_Y"
-  },
-  "0x5A": {
-    "key": "Z",
-    "action": "SHIFT+KEY_Z"
-  },
-  "0x5B": {
-    "key": "[",
-    "action": "KEY_LEFTBRACE"
-  },
-  "0x5C": {
-    "key": "\\",
-    "action": "KEY_BACKSLASH"
-  },
-  "0x5D": {
-    "key": "]",
-    "action": "KEY_RIGHTBRACE"
-  },
-  "0x5E": {
-    "key": "^",
-    "action": "SHIFT+KEY_6"
-  },
-  "0x5F": {
-    "key": "_",
-    "action": "SHIFT+KEY_MINUS"
-  },
-  "0x60": {
-    "key": "`",
-    "action": "KEY_GRAVE"
-  },
-  "0x61": {
-    "key": "a",
-    "action": "KEY_A"
-  },
-  "0x62": {
-    "key": "b",
-    "action": "KEY_B"
-  },
-  "0x63": {
-    "key": "c",
-    "action": "KEY_C"
-  },
-  "0x64": {
-    "key": "d",
-    "action": "KEY_D"
-  },
-  "0x65": {
-    "key": "e",
-    "action": "KEY_E"
-  },
-  "0x66": {
-    "key": "f",
-    "action": "KEY_F"
-  },
-  "0x67": {
-    "key": "g",
-    "action": "KEY_G"
-  },
-  "0x68": {
-    "key": "h",
-    "action": "KEY_H"
-  },
-  "0x69": {
-    "key": "i",
-    "action": "KEY_I"
-  },
-  "0x6A": {
-    "key": "j",
-    "action": "KEY_J"
-  },
-  "0x6B": {
-    "key": "k",
-    "action": "KEY_K"
-  },
-  "0x6C": {
-    "key": "l",
-    "action": "KEY_L"
-  },
-  "0x6D": {
-    "key": "m",
-    "action": "KEY_M"
-  },
-  "0x6E": {
-    "key": "n",
-    "action": "KEY_N"
-  },
-  "0x6F": {
-    "key": "o",
-    "action": "KEY_O"
-  },
-  "0x70": {
-    "key": "p",
-    "action": "KEY_P"
-  },
-  "0x71": {
-    "key": "q",
-    "action": "KEY_Q"
-  },
-  "0x72": {
-    "key": "r",
-    "action": "KEY_R"
-  },
-  "0x73": {
-    "key": "s",
-    "action": "KEY_S"
-  },
-  "0x74": {
-    "key": "t",
-    "action": "KEY_T"
-  },
-  "0x75": {
-    "key": "u",
-    "action": "KEY_U"
-  },
-  "0x76": {
-    "key": "v",
-    "action": "KEY_V"
-  },
-  "0x77": {
-    "key": "w",
-    "action": "KEY_W"
-  },
-  "0x78": {
-    "key": "x",
-    "action": "KEY_X"
-  },
-  "0x79": {
-    "key": "y",
-    "action": "KEY_Y"
-  },
-  "0x7A": {
-    "key": "z",
-    "action": "KEY_Z"
-  },
-  "0x7B": {
-    "key": "{",
-    "action": "SHIFT+KEY_LEFTBRACE"
-  },
-  "0x7C": {
-    "key": "|",
-    "action": "SHIFT+KEY_BACKSLASH"
-  },
-  "0x7D": {
-    "key": "}",
-    "action": "SHIFT+KEY_RIGHTBRACE"
-  },
-  "0x7E": {
-    "key": "~",
-    "action": "SHIFT+KEY_GRAVE"
-  },
-  "0x7F": {
-    "key": "BS",
-    "action": "KEY_BACKSPACE"
+    "0x00": {
+      "key": "CTRL-@",
+      "action": "CTRL+SHIFT+KEY_2"
+    },
+    "0x01": {
+      "key": "CTRL-A",
+      "action": "CTRL+KEY_A"
+    },
+    "0x02": {
+      "key": "CTRL-B",
+      "action": "CTRL+KEY_B"
+    },
+    "0x03": {
+      "key": "CTRL-C",
+      "action": "CTRL+KEY_C"
+    },
+    "0x04": {
+      "key": "CTRL-D",
+      "action": "CTRL+KEY_D"
+    },
+    "0x05": {
+      "key": "CTRL-E",
+      "action": "CTRL+KEY_E"
+    },
+    "0x06": {
+      "key": "CTRL-F",
+      "action": "CTRL+KEY_F"
+    },
+    "0x07": {
+      "key": "CTRL-G",
+      "action": "CTRL+KEY_G"
+    },
+    "0x08": {
+      "key": "CTRL-H",
+      "action": "KEY_LEFT"
+    },
+    "0x09": {
+      "key": "CTRL-I",
+      "action": "KEY_TAB"
+    },
+    "0x0A": {
+      "key": "CTRL-J",
+      "action": "KEY_DOWN"
+    },
+    "0x0B": {
+      "key": "CTRL-K",
+      "action": "KEY_UP"
+    },
+    "0x0C": {
+      "key": "CTRL-L",
+      "action": "CTRL+KEY_L"
+    },
+    "0x0D": {
+      "key": "Enter",
+      "action": "KEY_ENTER"
+    },
+    "0x0E": {
+      "key": "CTRL-N",
+      "action": "CTRL+KEY_N"
+    },
+    "0x0F": {
+      "key": "CTRL-O",
+      "action": "CTRL+KEY_O"
+    },
+    "0x10": {
+      "key": "CTRL-P",
+      "action": "CTRL+KEY_P"
+    },
+    "0x11": {
+      "key": "CTRL-Q",
+      "action": "CTRL+KEY_Q"
+    },
+    "0x12": {
+      "key": "CTRL-R",
+      "action": "CTRL+KEY_R"
+    },
+    "0x13": {
+      "key": "CTRL-S",
+      "action": "CTRL+KEY_S"
+    },
+    "0x14": {
+      "key": "CTRL-T",
+      "action": "CTRL+KEY_T"
+    },
+    "0x15": {
+      "key": "CTRL-U",
+      "action": "KEY_RIGHT"
+    },
+    "0x16": {
+      "key": "CTRL-V",
+      "action": "CTRL+KEY_V"
+    },
+    "0x17": {
+      "key": "CTRL-W",
+      "action": "CTRL+KEY_W"
+    },
+    "0x18": {
+      "key": "CTRL-X",
+      "action": "CTRL+KEY_X"
+    },
+    "0x19": {
+      "key": "CTRL-Y",
+      "action": "CTRL+KEY_Y"
+    },
+    "0x1A": {
+      "key": "CTRL-Z",
+      "action": "CTRL+KEY_Z"
+    },
+    "0x1B": {
+      "key": "ESCAPE",
+      "action": "KEY_ESC"
+    },
+    "0x1C": {
+      "key": "CTRL-\\",
+      "action": "CTRL+KEY_BACKSLASH"
+    },
+    "0x1D": {
+      "key": "CTRL-]",
+      "action": "CTRL+KEY_RIGHTBRACE"
+    },
+    "0x1E": {
+      "key": "CTRL-6",
+      "action": "CTRL+KEY_6"
+    },
+    "0x1F": {
+      "key": "CTRL--",
+      "action": "CTRL+KEY_MINUS"
+    },
+    "0x20": {
+      "key": "' '",
+      "action": "KEY_SPACE"
+    },
+    "0x21": {
+      "key": "!",
+      "action": "SHIFT+KEY_1"
+    },
+    "0x22": {
+      "key": "\"",
+      "action": "SHIFT+KEY_APOSTROPHE"
+    },
+    "0x23": {
+      "key": "#",
+      "action": "SHIFT+KEY_3"
+    },
+    "0x24": {
+      "key": "$",
+      "action": "SHIFT+KEY_4"
+    },
+    "0x25": {
+      "key": "%",
+      "action": "SHIFT+KEY_5"
+    },
+    "0x26": {
+      "key": "&",
+      "action": "SHIFT+KEY_7"
+    },
+    "0x27": {
+      "key": "'",
+      "action": "KEY_APOSTROPHE"
+    },
+    "0x28": {
+      "key": "(",
+      "action": "SHIFT+KEY_9"
+    },
+    "0x29": {
+      "key": ")",
+      "action": "SHIFT+KEY_0"
+    },
+    "0x2A": {
+      "key": "*",
+      "action": "SHIFT+KEY_8"
+    },
+    "0x2B": {
+      "key": "+",
+      "action": "SHIFT+KEY_EQUAL"
+    },
+    "0x2C": {
+      "key": ",",
+      "action": "KEY_COMMA"
+    },
+    "0x2D": {
+      "key": "-",
+      "action": "KEY_MINUS"
+    },
+    "0x2E": {
+      "key": ".",
+      "action": "KEY_DOT"
+    },
+    "0x2F": {
+      "key": "/",
+      "action": "KEY_SLASH"
+    },
+    "0x30": {
+      "key": "0",
+      "action": "KEY_0"
+    },
+    "0x31": {
+      "key": "1",
+      "action": "KEY_1"
+    },
+    "0x32": {
+      "key": "2",
+      "action": "KEY_2"
+    },
+    "0x33": {
+      "key": "3",
+      "action": "KEY_3"
+    },
+    "0x34": {
+      "key": "4",
+      "action": "KEY_4"
+    },
+    "0x35": {
+      "key": "5",
+      "action": "KEY_5"
+    },
+    "0x36": {
+      "key": "6",
+      "action": "KEY_6"
+    },
+    "0x37": {
+      "key": "7",
+      "action": "KEY_7"
+    },
+    "0x38": {
+      "key": "8",
+      "action": "KEY_8"
+    },
+    "0x39": {
+      "key": "9",
+      "action": "KEY_9"
+    },
+    "0x3A": {
+      "key": ":",
+      "action": "SHIFT+KEY_SEMICOLON"
+    },
+    "0x3B": {
+      "key": ";",
+      "action": "KEY_SEMICOLON"
+    },
+    "0x3C": {
+      "key": "<",
+      "action": "SHIFT+KEY_COMMA"
+    },
+    "0x3D": {
+      "key": "=",
+      "action": "KEY_EQUAL"
+    },
+    "0x3E": {
+      "key": ">",
+      "action": "SHIFT+KEY_DOT"
+    },
+    "0x3F": {
+      "key": "?",
+      "action": "SHIFT+KEY_SLASH"
+    },
+    "0x40": {
+      "key": "@",
+      "action": "SHIFT+KEY_2"
+    },
+    "0x41": {
+      "key": "A",
+      "action": "SHIFT+KEY_A"
+    },
+    "0x42": {
+      "key": "B",
+      "action": "SHIFT+KEY_B"
+    },
+    "0x43": {
+      "key": "C",
+      "action": "SHIFT+KEY_C"
+    },
+    "0x44": {
+      "key": "D",
+      "action": "SHIFT+KEY_D"
+    },
+    "0x45": {
+      "key": "E",
+      "action": "SHIFT+KEY_E"
+    },
+    "0x46": {
+      "key": "F",
+      "action": "SHIFT+KEY_F"
+    },
+    "0x47": {
+      "key": "G",
+      "action": "SHIFT+KEY_G"
+    },
+    "0x48": {
+      "key": "H",
+      "action": "SHIFT+KEY_H"
+    },
+    "0x49": {
+      "key": "I",
+      "action": "SHIFT+KEY_I"
+    },
+    "0x4A": {
+      "key": "J",
+      "action": "SHIFT+KEY_J"
+    },
+    "0x4B": {
+      "key": "K",
+      "action": "SHIFT+KEY_K"
+    },
+    "0x4C": {
+      "key": "L",
+      "action": "SHIFT+KEY_L"
+    },
+    "0x4D": {
+      "key": "M",
+      "action": "SHIFT+KEY_M"
+    },
+    "0x4E": {
+      "key": "N",
+      "action": "SHIFT+KEY_N"
+    },
+    "0x4F": {
+      "key": "O",
+      "action": "SHIFT+KEY_O"
+    },
+    "0x50": {
+      "key": "P",
+      "action": "SHIFT+KEY_P"
+    },
+    "0x51": {
+      "key": "Q",
+      "action": "SHIFT+KEY_Q"
+    },
+    "0x52": {
+      "key": "R",
+      "action": "SHIFT+KEY_R"
+    },
+    "0x53": {
+      "key": "S",
+      "action": "SHIFT+KEY_S"
+    },
+    "0x54": {
+      "key": "T",
+      "action": "SHIFT+KEY_T"
+    },
+    "0x55": {
+      "key": "U",
+      "action": "SHIFT+KEY_U"
+    },
+    "0x56": {
+      "key": "V",
+      "action": "SHIFT+KEY_V"
+    },
+    "0x57": {
+      "key": "W",
+      "action": "SHIFT+KEY_W"
+    },
+    "0x58": {
+      "key": "X",
+      "action": "SHIFT+KEY_X"
+    },
+    "0x59": {
+      "key": "Y",
+      "action": "SHIFT+KEY_Y"
+    },
+    "0x5A": {
+      "key": "Z",
+      "action": "SHIFT+KEY_Z"
+    },
+    "0x5B": {
+      "key": "[",
+      "action": "KEY_LEFTBRACE"
+    },
+    "0x5C": {
+      "key": "\\",
+      "action": "KEY_BACKSLASH"
+    },
+    "0x5D": {
+      "key": "]",
+      "action": "KEY_RIGHTBRACE"
+    },
+    "0x5E": {
+      "key": "^",
+      "action": "SHIFT+KEY_6"
+    },
+    "0x5F": {
+      "key": "_",
+      "action": "SHIFT+KEY_MINUS"
+    },
+    "0x60": {
+      "key": "`",
+      "action": "KEY_GRAVE"
+    },
+    "0x61": {
+      "key": "a",
+      "action": "KEY_A"
+    },
+    "0x62": {
+      "key": "b",
+      "action": "KEY_B"
+    },
+    "0x63": {
+      "key": "c",
+      "action": "KEY_C"
+    },
+    "0x64": {
+      "key": "d",
+      "action": "KEY_D"
+    },
+    "0x65": {
+      "key": "e",
+      "action": "KEY_E"
+    },
+    "0x66": {
+      "key": "f",
+      "action": "KEY_F"
+    },
+    "0x67": {
+      "key": "g",
+      "action": "KEY_G"
+    },
+    "0x68": {
+      "key": "h",
+      "action": "KEY_H"
+    },
+    "0x69": {
+      "key": "i",
+      "action": "KEY_I"
+    },
+    "0x6A": {
+      "key": "j",
+      "action": "KEY_J"
+    },
+    "0x6B": {
+      "key": "k",
+      "action": "KEY_K"
+    },
+    "0x6C": {
+      "key": "l",
+      "action": "KEY_L"
+    },
+    "0x6D": {
+      "key": "m",
+      "action": "KEY_M"
+    },
+    "0x6E": {
+      "key": "n",
+      "action": "KEY_N"
+    },
+    "0x6F": {
+      "key": "o",
+      "action": "KEY_O"
+    },
+    "0x70": {
+      "key": "p",
+      "action": "KEY_P"
+    },
+    "0x71": {
+      "key": "q",
+      "action": "KEY_Q"
+    },
+    "0x72": {
+      "key": "r",
+      "action": "KEY_R"
+    },
+    "0x73": {
+      "key": "s",
+      "action": "KEY_S"
+    },
+    "0x74": {
+      "key": "t",
+      "action": "KEY_T"
+    },
+    "0x75": {
+      "key": "u",
+      "action": "KEY_U"
+    },
+    "0x76": {
+      "key": "v",
+      "action": "KEY_V"
+    },
+    "0x77": {
+      "key": "w",
+      "action": "KEY_W"
+    },
+    "0x78": {
+      "key": "x",
+      "action": "KEY_X"
+    },
+    "0x79": {
+      "key": "y",
+      "action": "KEY_Y"
+    },
+    "0x7A": {
+      "key": "z",
+      "action": "KEY_Z"
+    },
+    "0x7B": {
+      "key": "{",
+      "action": "SHIFT+KEY_LEFTBRACE"
+    },
+    "0x7C": {
+      "key": "|",
+      "action": "SHIFT+KEY_BACKSLASH"
+    },
+    "0x7D": {
+      "key": "}",
+      "action": "SHIFT+KEY_RIGHTBRACE"
+    },
+    "0x7E": {
+      "key": "~",
+      "action": "SHIFT+KEY_GRAVE"
+    },
+    "0x7F": {
+      "key": "BS",
+      "action": "KEY_BACKSPACE"
+    }
   }
 }

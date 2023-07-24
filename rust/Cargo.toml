@@ -5,28 +5,75 @@ edition = "2021"
 author = "Dominic DiGiacomo"
 
 workspaces = [
-  "repl/",
   "src/",
 ]
+
+## std crates
+[dependencies]
+
+mio = { version =  "0.8", optional = true }
+mio-serial = { version =  "5.0.1", optional = true }
+hex = { version =  "0.4.3", default-features = false, optional = true }
+repl-rs = { version =  "0.2.7", optional = true }
+indoc = { version =  "2", optional = true }
+serde = { version = "1.0", features = ["derive"], optional = true }
+serde_json = { version =  "1.0", optional = true }
+signal-hook = { version =  "0.3.4", optional = true }
+parking_lot = { version =  "0.12.1", optional = true }
+enigo = { version =  "0.1.2", optional = true }
+itertools = { version =  "0.10", optional = true }
+
+## no-std crates
+
+cortex-m = { version =  "0.7.3", optional = true }
+cortex-m-rt = { version =  "0.7.3", optional = true }
+embedded-hal = { version = "0.2.5", features = ["unproven"], optional = true }
+defmt = { version =  "0.3.5", optional = true }
+defmt-serial = { version =  "0.5.0", optional = true }
+defmt-rtt = { version =  "0.4", optional = true }
+panic-probe = { version = "0.3", features = ["print-defmt"], optional = true }
+rp2040-hal = { version="0.8.2", features=["rt", "critical-section-impl", "defmt"], optional = true }
+rp2040-boot2 = { version =  "0.2", optional = true }
+fugit = { version =  "0.3.6", optional = true }
+hashbrown = { version =  "0.14.0", optional = true }
+usbd-human-interface-device = { version =  "0.4.3", optional = true }
+usb-device = { version =  "0.2", optional = true }
+critical-section = { version = "1.0.0", optional = true }
+embedded-alloc = { version = "0.5.0", optional = true }
+# rp-pico = { version = "0.7.0", features=["rp2040-e5"], optional = true }
+keyberon = { version = "0.1.1", optional = true }
+usbd-hid = { version = "0.6.1", optional = true }
+packed_struct = { version = "0.10", default-features = false, optional = true }
+
+[features]
+default = ["pico", "layout-iso"]
+pico = [ "no-std" ]
+std = ["mio", "mio-serial", "hex/std", "repl-rs", "indoc", "serde", "serde_json", "signal-hook", "parking_lot", "enigo", "itertools"]
+no-std = ["cortex-m", "cortex-m-rt", "embedded-hal", "defmt", "defmt-rtt", "panic-probe", "rp2040-hal", "rp2040-boot2", "fugit", "hashbrown", "hex", "usbd-human-interface-device", "usb-device", "critical-section", "embedded-alloc", "defmt-serial", "keyberon", "usb-device/defmt", "usbd-hid", "packed_struct", "rp2040-hal/rt", "rp2040-hal/rp2040-e5", "rp2040-hal/critical-section-impl", "probe"]
+# , "rp-pico", "rp-pico/rp2040-e5"
+layout-iso = []
+layout-ansi = []
+probe = []
+serial = []
 
 [[bin]]
 name = "repl_keycodes"
 path = "./repl/keycodes.rs"
+default-features = [ "std" ]
 
-[dependencies]
-mio = "0.8"
-mio-serial = "5.0.1"
-hex = "0.4.3"
-repl-rs = "0.2.7"
-indoc = "2"
+[[bin]]
+name = "main_pico"
+path = "./src/entrypoints/pico.rs"
+features = [ "pico", "probe" ]
 
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+[[bin]]
+name = "main_asdf"
+path = "./src/entrypoints/asdf.rs"
+features = [ "pico" ]
 
-signal-hook = "0.3.4"
-parking_lot = "0.12.1"
-
-#enigo = { git = "https://github.com/pentamassiv/enigo.git" }
-enigo = "0.1.2"
-
-itertools = "0.10"
+[profile.bench]
+debug = 4
+[profile.release]
+debug = 4
+[profile.test]
+debug = 2

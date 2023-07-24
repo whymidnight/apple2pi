@@ -1,3 +1,4 @@
+/*
 use crate::{
     drivers::kb::{driver::KbDriver, input::KbDriverInput, state::KbDriverState},
     errors::A2PiError,
@@ -33,6 +34,7 @@ impl Clone for A2PiState {
     }
 }
 
+#[cfg_attr(not("std"))]
 impl A2PiState {
     pub fn new() -> A2PiState {
         A2PiState {
@@ -150,3 +152,4 @@ impl A2PiState {
         self.kb_driver.reset_device()
     }
 }
+*/
