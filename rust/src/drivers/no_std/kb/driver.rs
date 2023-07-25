@@ -36,25 +36,34 @@ impl KeyboardDriver for KbDriver {
         self.key_state
             .handle_key_event(scan_code, key_event.unwrap());
 
-        Some(self.clone().hid_report())
-    }
-
-    fn hid_report(self) -> Vec<KeyboardReport> {
+        let active_keys = &self.key_state.active_keys;
         let mut reports: Vec<KeyboardReport> = Vec::new();
-        let active_keys = self.key_state.get_active_keys();
         for keys in active_keys {
             let report = KeyboardReport {
-                modifier: 0,
+                modifier: {
+                    match keys.1[0] {
+                        Keyboard::LeftControl => 1u8 << 0u8,
+                        Keyboard::LeftShift => 1 << 1,
+                        Keyboard::LeftAlt => 1 << 2,
+                        Keyboard::LeftGUI => 1 << 3,
+                        Keyboard::RightControl => 1 << 4,
+                        Keyboard::RightShift => 1 << 5,
+                        Keyboard::RightAlt => 1 << 6,
+                        Keyboard::RightGUI => 1 << 7,
+                        _ => 0,
+                    }
+                },
                 reserved: 0,
                 leds: 0,
                 keycodes: {
                     let mut keycodes: [u8; 6] = [0x0u8; 6];
-                    for (idx, &key) in keys.iter().enumerate() {
+                    for (idx, &key) in keys.1.iter().enumerate() {
                         if idx >= 6 {
                             break;
                         }
                         keycodes[idx] = key.into();
                     }
+                    defmt::debug!("payload: {} ::: keycoards {}", event_payload, keycodes);
 
                     keycodes
                 },
@@ -63,6 +72,11 @@ impl KeyboardDriver for KbDriver {
             reports.push(report);
         }
 
+        Some(reports)
+    }
+
+    fn hid_report(self) -> Vec<KeyboardReport> {
+        let mut reports: Vec<KeyboardReport> = Vec::new();
         reports
     }
 

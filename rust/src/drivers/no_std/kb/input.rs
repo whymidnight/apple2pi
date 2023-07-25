@@ -5,11 +5,12 @@ use alloc::string::*;
 pub const KEY_ASCII: u8 = 0x7Fu8;
 
 #[derive(Clone)]
+#[repr(u8)]
 pub enum Modifiers {
-    Bare(u8),
-    OpenApple(u8),
-    ClosedApple(u8),
-    OpenClosedApple(u8),
+    Bare(u8) = 0x0u8,
+    OpenApple(u8) = 0x40,
+    ClosedApple(u8) = 0x80,
+    OpenClosedApple(u8) = 0xc1,
 }
 
 impl Modifiers {

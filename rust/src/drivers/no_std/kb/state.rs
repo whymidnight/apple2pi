@@ -1,3 +1,4 @@
+use alloc::format;
 use alloc::vec;
 use alloc::vec::Vec;
 
@@ -10,7 +11,7 @@ use super::input::KbDriverInput;
 
 #[derive(Clone)]
 pub struct KeyState {
-    active_keys: Vec<(u8, Vec<Keyboard>)>,
+    pub active_keys: Vec<(u8, Vec<Keyboard>)>,
 }
 
 impl KeyState {
@@ -22,23 +23,35 @@ impl KeyState {
 
     pub fn handle_key_event(&mut self, scan_code: u8, key_event: (Key, KbDriverInput)) {
         let (key, input) = key_event;
+        let key_code = key.action.as_str();
         match input {
             KbDriverInput::KeyUpEvent(_) => {
-                // check if offered `key_event` matches the last key down
-                // then reset `active_keys` if true
-                let last_key = self.active_keys.last();
-                if let Some(last_key_code) = last_key {
-                    if scan_code == last_key_code.0 {
-                        self.active_keys = Vec::new()
-                    }
-                }
+                defmt::warn!(
+                    "........ KEY UP ........ {} {}",
+                    key_code,
+                    key.usb_hid
+                        .iter()
+                        .fold(format!(""), |acc, &c| {
+                            let fmt = format!("{:?}, {:?}", acc, c);
+                            fmt
+                        })
+                        .as_str(),
+                );
+                self.active_keys = vec![(0, vec![Keyboard::NoEventIndicated])];
             }
             KbDriverInput::KeyDownEvent(_) => {
-                self.active_keys = [
-                    self.active_keys.clone(),
-                    vec![(key.key.parse::<u8>().unwrap(), key.usb_hid)],
-                ]
-                .concat();
+                defmt::warn!(
+                    "........ KEY DOWN ........ {} {}",
+                    key_code,
+                    &key.usb_hid
+                        .iter()
+                        .fold(format!(""), |acc, &c| {
+                            let fmt = format!("{:?}, {:?}", acc, c);
+                            fmt
+                        })
+                        .as_str(),
+                );
+                self.active_keys = vec![(key.key.parse::<u8>().unwrap(), key.usb_hid)];
             }
             _ => {}
         }

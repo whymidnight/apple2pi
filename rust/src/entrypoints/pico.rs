@@ -4,9 +4,11 @@
 extern crate alloc;
 
 use a2pi_rs::drivers::no_std::kb::input::A2PI_DESCRIPTOR;
-use core::borrow::Borrow;
+use alloc::vec::Vec;
+use core::borrow::{Borrow, BorrowMut};
 use core::{cell::RefCell, convert::Infallible};
 use critical_section::Mutex;
+use hal::multicore::{Multicore, Stack};
 
 use usb_device::class_prelude::*;
 use usb_device::prelude::*;
@@ -58,6 +60,8 @@ static KEYBOARD_REPORT: Mutex<RefCell<KeyboardReport>> = Mutex::new(RefCell::new
 
 static mut KEY_PRESS_EVENT: [u8; 3] = [0x0; 3];
 
+static mut A2PI_DRIVER_KB: Mutex<RefCell<Option<KbDriver>>> = Mutex::new(RefCell::new(None));
+
 #[rp2040_hal::entry]
 fn main() -> ! {
     {
@@ -69,7 +73,14 @@ fn main() -> ! {
     //
     // -- BEGIN PRELUDE --
     //
-    let mut a2pi = KbDriver::init();
+
+    unsafe {
+        let a2pi = KbDriver::init();
+        critical_section::with(|cs| unsafe {
+            let mut a = A2PI_DRIVER_KB.borrow_ref_mut(cs);
+            let _a = a.replace(a2pi);
+        });
+    }
 
     let mut pac = pac::Peripherals::take().unwrap();
     let core = pac::CorePeripherals::take().unwrap();
@@ -87,21 +98,20 @@ fn main() -> ! {
     .unwrap();
     let timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS);
     let mut delay = cortex_m::delay::Delay::new(core.SYST, clocks.system_clock.freq().to_Hz());
-    let sio = hal::Sio::new(pac.SIO);
+    let mut sio = hal::Sio::new(pac.SIO);
     let pins = hal::gpio::Pins::new(
         pac.IO_BANK0,
         pac.PADS_BANK0,
         sio.gpio_bank0,
         &mut pac.RESETS,
     );
-    /*
-    let ppb = &mut pac.PPB;
-    unsafe {
-        // Copy the vector table that cortex_m_rt produced into the RAM vector table
-        RAM_VTABLE.init(ppb);
-        RAM_VTABLE.register_handler(pac::Interrupt::USBCTRL_IRQ as usize, timer_irq0_replacement);
-    }
-    */
+    let sys_freq = clocks.system_clock.freq().to_Hz();
+    let mut mc = Multicore::new(&mut pac.PSM, &mut pac.PPB, &mut sio.fifo);
+    let cores = mc.cores();
+    let core1 = &mut cores[1];
+    let _test = core1.spawn(unsafe { &mut CORE1_STACK.mem }, move || {
+        core1_task(sys_freq)
+    });
 
     let probe_uart = hal::uart::UartPeripheral::new(
         pac.UART0,
@@ -149,7 +159,7 @@ fn main() -> ! {
             subclass: HidSubClass::NoSubClass,
             protocol: HidProtocol::Keyboard,
             config: ProtocolModeConfig::ForceReport,
-            locale: HidCountryCode::German,
+            locale: HidCountryCode::US,
         },
     );
 
@@ -226,7 +236,6 @@ fn main() -> ! {
     let (mut rx, tx) = uart.split();
     let mut dma = pac.DMA.split(&mut pac.RESETS);
 
-    let mut press = false;
     loop {
         let mut rx_buf = unsafe { &mut KEY_PRESS_EVENT };
         let mut lch0 = dma.ch0;
@@ -249,64 +258,17 @@ fn main() -> ! {
         lrx_buf = l_rx_buf;
 
         let payload = *lrx_buf;
-        defmt::info!("[KEY_PRESS]: {=[u8]:#x} ::::: {:?}", payload, payload);
+
+        // write payload to fifio
 
         if payload.iter().all(|&b| b == 0x80) {
             tx.write_full_blocking(&[0x81]);
             defmt::info!("resyncd");
+            sio.fifo.write(512);
         } else {
-            let reports = a2pi.process_key_event(payload);
-            if let Some(keyboard_reports) = reports {
-                let num_reports = keyboard_reports.len();
-                for (idx, &report) in keyboard_reports.iter().enumerate() {
-                    critical_section::with(|cs| {
-                        defmt::info!("writing report...");
-                        KEYBOARD_REPORT.replace(cs, report);
-                    });
-                    // unless a case exists where there are multiple reports to be
-                    // emitted, do not incur a delay.
-                    if idx != num_reports {
-                        defmt::info!("delaying next report...");
-                        delay.delay_ms(10);
-                    }
-                }
+            for payload_byte in payload {
+                sio.fifo.write(payload_byte as u32);
             }
-
-            /*
-            match press {
-                // key up
-                true => {
-                    critical_section::with(|cs| {
-                        KEYBOARD_REPORT.replace(
-                            cs,
-                            KeyboardReport {
-                                modifier: 0,
-                                reserved: 0,
-                                leds: 0,
-                                keycodes: [0u8; 6],
-                            },
-                        );
-                    });
-
-                    press = false;
-                }
-                // key down
-                false => {
-                    critical_section::with(|cs| {
-                        KEYBOARD_REPORT.replace(
-                            cs,
-                            KeyboardReport {
-                                modifier: 0,
-                                reserved: 0,
-                                leds: 0,
-                                keycodes: [0x04, 0x0, 0x0, 0x0, 0x0, 0x0],
-                            },
-                        );
-                    });
-                    press = true;
-                }
-            }
-            */
         }
 
         rx = lrx;
@@ -350,4 +312,70 @@ unsafe fn USBCTRL_IRQ() {
 
 fn report_is_empty(report: &KeyboardReport) -> bool {
     report.modifier != 0 || report.keycodes.iter().any(|key| *key != 0x0u8)
+}
+
+static mut CORE1_STACK: Stack<4096> = Stack::new();
+
+fn core1_task(sys_freq: u32) -> ! {
+    let mut pac = unsafe { pac::Peripherals::steal() };
+    let core = unsafe { pac::CorePeripherals::steal() };
+
+    let mut sio = hal::Sio::new(pac.SIO);
+    /*
+    let pins = hal::gpio::Pins::new(
+        pac.IO_BANK0,
+        pac.PADS_BANK0,
+        sio.gpio_bank0,
+        &mut pac.RESETS,
+    );
+    */
+
+    // let mut delay = cortex_m::delay::Delay::new(core.SYST, sys_freq);
+
+    // let buffer: [u8; 3] = [0x0u8; 3];
+    let mut buffer = Vec::new();
+    loop {
+        let input = sio.fifo.read();
+        if let Some(word) = input {
+            let byte = word;
+            if byte == 512 {
+                buffer.clear();
+            } else {
+                buffer.push(byte as u8);
+            }
+        };
+        if buffer.len() == 3 {
+            defmt::info!(
+                "[KEY_PRESS]: {=[u8]:#x} ::::: {:?}",
+                buffer.as_slice(),
+                buffer.as_slice()
+            );
+            // process buffer
+            let reports: Option<Vec<KeyboardReport>> = critical_section::with(|cs| unsafe {
+                let mut a2pi = unsafe { A2PI_DRIVER_KB.borrow_ref_mut(cs) };
+                a2pi.as_mut().unwrap().process_key_event({
+                    let mut buf: [u8; 3] = [0x0u8; 3];
+                    buffer.iter().enumerate().for_each(|(idx, &b)| buf[idx] = b);
+                    buf
+                })
+            });
+            critical_section::with(|cs| unsafe {
+                if let Some(keyboard_reports) = reports {
+                    let num_reports = keyboard_reports.len();
+                    for (idx, &report) in keyboard_reports.iter().enumerate() {
+                        defmt::info!("writing report... {}", report.keycodes);
+                        KEYBOARD_REPORT.replace(cs, report);
+                        // delay.delay_ms(10);
+                        // unless a case exists where there are multiple reports to be
+                        // emitted, do not incur a delay.
+                        if idx != num_reports {
+                            defmt::info!("delaying next report...");
+                        }
+                    }
+                }
+            });
+            buffer.clear();
+        }
+    }
+    // sio.fifo.write_blocking(CORE1_TASK_COMPLETE);
 }
