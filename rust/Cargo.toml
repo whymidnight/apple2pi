@@ -8,8 +8,9 @@ workspaces = [
   "src/",
 ]
 
-## std crates
 [dependencies]
+
+## std crates
 
 mio = { version =  "0.8", optional = true }
 mio-serial = { version =  "5.0.1", optional = true }
@@ -40,7 +41,6 @@ usbd-human-interface-device = { version =  "0.4.3", optional = true }
 usb-device = { version =  "0.2", optional = true }
 critical-section = { version = "1.0.0", optional = true }
 embedded-alloc = { version = "0.5.0", optional = true }
-# rp-pico = { version = "0.7.0", features=["rp2040-e5"], optional = true }
 keyberon = { version = "0.1.1", optional = true }
 usbd-hid = { version = "0.6.1", optional = true }
 packed_struct = { version = "0.10", default-features = false, optional = true }
@@ -51,7 +51,6 @@ default = ["pico", "layout-iso"]
 pico = [ "no-std" ]
 std = ["mio", "mio-serial", "hex/std", "repl-rs", "indoc", "serde", "serde_json", "signal-hook", "parking_lot", "enigo", "itertools"]
 no-std = ["cortex-m", "cortex-m-rt", "embedded-hal", "defmt", "defmt-rtt", "panic-probe", "rp2040-hal", "rp2040-boot2", "fugit", "hashbrown", "hex", "usbd-human-interface-device", "usb-device", "critical-section", "embedded-alloc", "defmt-serial", "keyberon", "usb-device/defmt", "usbd-hid", "packed_struct", "rp2040-hal/rt", "rp2040-hal/rp2040-e5", "rp2040-hal/critical-section-impl", "probe", "hex-display"]
-# , "rp-pico", "rp-pico/rp2040-e5"
 layout-iso = []
 layout-ansi = []
 probe = []
@@ -66,11 +65,6 @@ default-features = [ "std" ]
 name = "main_pico"
 path = "./src/entrypoints/pico.rs"
 features = [ "pico", "probe" ]
-
-[[bin]]
-name = "main_asdf"
-path = "./src/entrypoints/asdf.rs"
-features = [ "pico" ]
 
 [profile.bench]
 debug = 4

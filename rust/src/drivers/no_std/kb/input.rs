@@ -64,14 +64,6 @@ pub enum KbDriverInput {
 }
 
 impl KbDriverInput {
-    /*
-    pub fn invert(self) -> Self {
-        match self {
-            Self::KeyUp(input) => Self::KeyDown(input),
-            Self::KeyDown(input) => Self::KeyUp(input),
-        }
-    }
-    */
     pub fn from_key(modifier_scan_code: u8, key: Key, input: Self) -> Self {
         let modifier_got = Modifiers::get(modifier_scan_code);
 

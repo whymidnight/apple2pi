@@ -1,18 +1,9 @@
 mod hid;
-
-use core::ops::IndexMut;
-
-use alloc::format;
-
-use hashbrown::HashMap;
 use usbd_human_interface_device::page::Keyboard;
 
 use crate::drivers::shared::kb::{Key, KeyboardKeyMap};
 use crate::utils::hex::{self, u8_to_hex_string};
 
-use alloc::string::*;
-
-use alloc::vec;
 use alloc::vec::*;
 
 use self::hid::hoist_hid_keyboard_map;
@@ -23,11 +14,9 @@ use super::input::KEY_ASCII;
 
 pub type LayoutKeyWithHIDEntrant = (u8, u8, Vec<Keyboard>);
 pub type LayoutKeyWithHID = (&'static str, LayoutKeyWithHIDEntrant);
-pub type LayoutKeyFreeWithHID = HashMap<String, LayoutKeyWithHIDEntrant>;
 pub type LayoutKey = (&'static str, (u8, u8));
 pub type Layout = [(&'static str, [LayoutKey; 128]); 1];
 pub type LayoutWithHID = Vec<(&'static str, Vec<LayoutKeyWithHID>)>;
-pub type LayoutFreeWithHID = HashMap<String, LayoutKeyWithHIDEntrant>;
 
 #[derive(Clone)]
 pub struct KeyMap {
@@ -46,7 +35,6 @@ impl KeyMap {
 
         {
             hid.iter().for_each(|layer| {
-                defmt::warn!("setting up a2pi layer :: {}", layer.0);
                 let mut layout: Vec<Option<LayoutKeyWithHIDEntrant>> = Vec::new();
                 // backfill layout
                 for _ in 0..256 {
@@ -57,7 +45,6 @@ impl KeyMap {
                 layer.1.iter().for_each(|layer_key| {
                     let key_up_code: u8 = {
                         let asdf = hex::decode_hex(layer_key.0.strip_prefix("0x").unwrap());
-                        defmt::warn!("{}----{}", layer_key.0.clone(), asdf);
                         asdf
                     };
                     layout[key_up_code as usize] =
@@ -84,11 +71,6 @@ impl KeyboardKeyMap for KeyMap {
                 match input_found {
                     Some(input) => {
                         let (key_up, key_down, usb_hid) = input;
-                        defmt::info!(
-                            "found layout for {} input for {} :::::",
-                            u8_to_hex_string(layer).as_str(),
-                            u8_to_hex_string(scan_code).as_str(),
-                        );
 
                         let (input_key, driver_input) = if scan_code == scan_code_input {
                             (

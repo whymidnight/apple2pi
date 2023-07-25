@@ -1,8 +1,5 @@
-use core::num::ParseIntError;
-
-use alloc::format;
 // #[cfg(feature = "no_std")]
-use alloc::vec::Vec;
+use alloc::format;
 // #[cfg(feature = "no_std")]
 use alloc::string::String;
 use hex_display::HexDisplayExt;

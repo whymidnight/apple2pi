@@ -10,10 +10,6 @@ use usbd_hid::descriptor::KeyboardReport;
 use alloc::vec::Vec;
 
 pub trait KeyboardDriver {
-    /*
-    #[cfg(feature = "std")]
-    fn init(keymap: Option<String>) -> Self;
-    */
     #[cfg(feature = "no-std")]
     fn init() -> Self;
     #[cfg(feature = "no-std")]
@@ -25,8 +21,4 @@ pub trait KeyboardDriver {
 pub trait KeyboardKeyMap {
     #[cfg(feature = "no-std")]
     fn find_input(self, layer: u8, scan_code: u8) -> Option<(Key, KbDriverInput)>;
-    /*
-    #[cfg(feature = "std")]
-    fn find_scan_code(self, scan_code: String) -> Option<Key>;
-    */
 }

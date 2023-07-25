@@ -1,4 +1,4 @@
-use alloc::{vec, vec::Vec};
+use alloc::vec::Vec;
 use usbd_hid::descriptor::KeyboardReport;
 use usbd_human_interface_device::page::Keyboard;
 
@@ -8,10 +8,6 @@ use super::{kbmap::KeyMap, state::KeyState};
 
 #[derive(Clone)]
 pub struct KbDriver {
-    /// a { [scan_code: string]: { key: string, action: string } }.
-    /// where `scan_code` is represented in hex
-    /// where `key` is the supposed rendered sequence
-    /// where `action` is the supposed recorded sequence
     pub key_map: KeyMap,
     pub key_state: KeyState,
 }
@@ -25,11 +21,9 @@ impl KeyboardDriver for KbDriver {
     }
 
     fn process_key_event(&mut self, event_payload: [u8; 3]) -> Option<Vec<KeyboardReport>> {
-        // shove into KeyState
         let (layer, scan_code) = (event_payload[1], event_payload[2]);
         let key_event = self.key_map.clone().find_input(layer, scan_code);
         if key_event.is_none() {
-            defmt::warn!("key event was none for :: {}", event_payload);
             return None;
         }
 
@@ -41,17 +35,21 @@ impl KeyboardDriver for KbDriver {
         for keys in active_keys {
             let report = KeyboardReport {
                 modifier: {
-                    match keys.1[0] {
-                        Keyboard::LeftControl => 1u8 << 0u8,
-                        Keyboard::LeftShift => 1 << 1,
-                        Keyboard::LeftAlt => 1 << 2,
-                        Keyboard::LeftGUI => 1 << 3,
-                        Keyboard::RightControl => 1 << 4,
-                        Keyboard::RightShift => 1 << 5,
-                        Keyboard::RightAlt => 1 << 6,
-                        Keyboard::RightGUI => 1 << 7,
-                        _ => 0,
-                    }
+                    keys.1.iter().fold(0u8, |acc, k| {
+                        let modded = match k {
+                            Keyboard::LeftControl => 1u8 << 0u8,
+                            Keyboard::LeftShift => 1 << 1,
+                            Keyboard::LeftAlt => 1 << 2,
+                            Keyboard::LeftGUI => 1 << 3,
+                            Keyboard::RightControl => 1 << 4,
+                            Keyboard::RightShift => 1 << 5,
+                            Keyboard::RightAlt => 1 << 6,
+                            Keyboard::RightGUI => 1 << 7,
+                            _ => 0,
+                        };
+
+                        acc | modded
+                    })
                 },
                 reserved: 0,
                 leds: 0,
@@ -63,7 +61,6 @@ impl KeyboardDriver for KbDriver {
                         }
                         keycodes[idx] = key.into();
                     }
-                    defmt::debug!("payload: {} ::: keycoards {}", event_payload, keycodes);
 
                     keycodes
                 },
@@ -79,56 +76,4 @@ impl KeyboardDriver for KbDriver {
         let mut reports: Vec<KeyboardReport> = Vec::new();
         reports
     }
-
-    /*
-    /// `lookup_scan_code` will search `self.key_map` for an existing
-    /// key of `scan_code` (in hexadecimal form) and return existance.
-    /// this will false-fail half the time due to key down scan codes
-    /// being masqueraded by a bitmask operation. in such case, before
-    /// returning `None` as if an invalid scan code, such falsey
-    /// existance will forego a bitmask operation to determine key up
-    /// scan code (which should **always** exist) - should this fail
-    /// then return `None`.
-    fn lookup_scan_code(self, scan_code: u8) -> (bool, Option<Key>) {
-        let key_map = self.key_map;
-        let mut scan_code_fmt = format!("0x{:2X}", scan_code);
-
-        match key_map.clone().find_scan_code(scan_code_fmt.clone()) {
-            Some(key) => (true, Some(key)),
-            None => {
-                let mask = /* (0x0 & MOD_FN) | */ scan_code & KEY_ASCII;
-                scan_code_fmt = format!("0x{:2X}", mask);
-                (false, key_map.find_scan_code(scan_code_fmt))
-            }
-        }
-    }
-    */
-
-    /*
-    pub fn emit_to_device(&mut self, state: Arc<KbDriverState>, input: KbDriverInput) {
-        /*
-        // let device = Arc::get_mut(&mut self.device).unwrap();
-        let mut device = Arc::get_mut(&mut self.device).unwrap();
-        device.emitter(state, input);
-
-        //self.emit_state(state)
-        */
-    }
-
-    pub fn emit_state(&self, state: Arc<KbDriverState>) {
-        /*
-        state
-            .clone()
-            .print(&|scan_code| self.clone().lookup_scan_code(scan_code.clone()))
-            .clone()
-        */
-    }
-
-    pub fn reset_device(&mut self) {
-        /*
-        let device = Arc::get_mut(&mut self.device).unwrap();
-        device.clear()
-        */
-    }
-    */
 }
